@@ -1,0 +1,20 @@
+{
+  "name": "quack-overflow",
+  "version": "0.0.0",
+  "description": "Stack overflow, but for ducks",
+  "main": "bin/www",
+  "scripts": {
+    "test": "npx mocha",
+    "start": "node bin/www"
+  },
+  "author": "Jacob Williams",
+  "license": "Unlicense",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "pg-promise": "^10.10.2",
+    "socket.io": "^4.1.3"
+  }
+}

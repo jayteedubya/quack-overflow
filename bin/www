@@ -1,0 +1,15 @@
+const server = require('../server.js');
+
+const getPort = () => {
+    const PORT = process.env.PORT || 3000
+    try {
+        return Number(PORT)
+    }
+    catch (err) {
+        console.log(err.message)
+    }
+}
+
+const PORT = getPort();
+server.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+
