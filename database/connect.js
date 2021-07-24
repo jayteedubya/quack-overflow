@@ -1,6 +1,12 @@
 require('dotenv').config();
-const pg = require('pg-promise')();
+const init = {
+    noWarnings: false
+}
+const pg = require('pg-promise')(init);
+const monitor = require('pg-monitor');
 const credentials = JSON.parse(process.env.DB_CREDENTIALS)
-const connection = pg(credentials);
+const db = pg(credentials);
+monitor.attach(init);
 
-module.exports = connection;
+
+module.exports = { pg, db };

@@ -3,11 +3,11 @@ const db = require('./connect.js');
 const buildUsersTable = () => {
     const query = '\
     CREATE TABLE users(\
-        id SERIAL PRIMARY key\
-        username VARCHAR(40) UNIQUE NOT NULL\
-        password VARCHAR(40) NOT NULL\
-        token TEXT\
-        2FA_secret TEXT\
+        id SERIAL PRIMARY key,\
+        username VARCHAR(40) UNIQUE NOT NULL,\
+        password VARCHAR(40) NOT NULL,\
+        token TEXT,\
+        twoFA_secret TEXT\
     );';
     return db.none(query);
 }
@@ -15,7 +15,32 @@ const buildUsersTable = () => {
 const buildQuestionsTable = () => {
     const query = '\
     CREATE TABLE questions(\
-        id SERIAL PRIMARY KEY\
-        author VARCHAR(40) NOT NULL REFERENCES users(username)\
-        body VARCHAR(1000)'
+        id SERIAL PRIMARY KEY,\
+        author VARCHAR(40) NOT NULL REFERENCES users(username),\
+        body VARCHAR(1000),\
+        views INTEGER,\
+        topic VARCHAR(60)\
+    );';
+    return db.none(query);
 }
+
+const buildAnswersTable = () => {
+    const query = '\
+    CREATE TABLE answers(\
+        id SERIAL PRIMARY KEY,\
+        author VARCHAR(40) NOT NULL REFERENCES users(username),\
+        pob_count INTEGER DEFAULT 0,\
+        body VARCHAR(600),\
+        question_id INT REFERENCES questions(id)\
+    );';
+    return db.none(query);
+}
+
+const initialize = async () => {
+    await buildUsersTable();
+    await buildQuestionsTable();
+    await buildAnswersTable();
+    return 'done';
+}
+
+initialize().then(res => console.log(res));
