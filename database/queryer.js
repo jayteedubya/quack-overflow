@@ -50,6 +50,12 @@ class Queryer {
         WHERE $4:name = $5;';
         return db.none(query, [this.table, column, value, identifier, idValue])
     }
+    /**
+     * 
+     * @param {string} identifier - the column used to identify the row to remove
+     * @param {any} idValue - the value in the column in the row which you wish to delete
+     * @returns an empty promise
+     */
     deleteRow(identifier, idValue) {
         const query = '\
         DELETE FROM $1:name\
