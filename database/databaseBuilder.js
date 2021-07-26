@@ -1,4 +1,4 @@
-const db = require('./connect.js');
+const { db } = require('./connect.js');
 
 const buildUsersTable = () => {
     const query = '\
@@ -19,7 +19,8 @@ const buildQuestionsTable = () => {
         author VARCHAR(40) NOT NULL REFERENCES users(username),\
         body VARCHAR(1000),\
         views INTEGER,\
-        topic VARCHAR(60)\
+        topic VARCHAR(60),\
+        time TIMESTAMPTZ DEFAULT NOW()\
     );';
     return db.none(query);
 }
@@ -31,7 +32,8 @@ const buildAnswersTable = () => {
         author VARCHAR(40) NOT NULL REFERENCES users(username),\
         pob_count INTEGER DEFAULT 0,\
         body VARCHAR(600),\
-        question_id INT REFERENCES questions(id)\
+        question_id INT REFERENCES questions(id),\
+        time TIMESTAMPTZ DEFAULT NOW()\
     );';
     return db.none(query);
 }
