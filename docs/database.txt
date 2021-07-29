@@ -1,0 +1,41 @@
+TABLES
+
+users - the sites user base
+id | username | password | token | twofa_secret
+
+* id - SERIAL INTEGER - the user identifier - PRIMARY KEY
+* username - VARCHAR(40) - the username - UNIQUE NOT NULL
+* password - VARCHAR(40) - the users password - NOT NULL
+* token - TEXT - the users current json web token - UNIQUE
+* twofa_secret - TEXT - the users two factor authentication secret - UNIQUE
+
+questions - the questions users ask
+id | author | body | views | topic | time
+
+* id - SERIAL INTEGER - the identifier for the question - PRIMARY KEY
+* author - VARCHAR(40) - the user who asked the question - REFERENCES users(username)
+* body - VARCHAR(1000) - the text of the question
+* views - INTEGER - the number of views this post has
+* topic - VARCHAR(60) - the topic of the question, which is user defined
+* time - TIMESTAMPTZ - the date and time the question was asked
+
+answers - the answers users provide to the people who ask them
+id | author | pob_count | body | question_id | time
+
+* id - SERIAL INTEGER - the identifier of the answer - PRIMARY KEY
+* author - VARCHAR(40) - the username of the person who answered the question - REFERENCES users(username)
+* pob_count - INTEGER - the number of times this answer has been "patted on the back" - DEFAULT 0
+* body - VARCHAR(600) - the text of the answer
+* question_id - INTEGER - the id of the question this answer is for - REFERENCES questions(question_id)
+* time - TIMESTAMPTZ - the time this answer was posted
+
+API
+
+*files
+
+*** queryer.js ***
+* the purpose of the queryer class is to provided some general queries for its children to inherit. The constructor
+takes two arguments:
+    - table, the name of the table that this queryer will work in
+    - columns, a list of strings representing all of the column names needed for an insert (excludes columns with a default case)
+for further documentation, consult the inline documentation comments in the queryer.js file

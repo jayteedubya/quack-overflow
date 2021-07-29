@@ -6,8 +6,8 @@ const buildUsersTable = () => {
         id SERIAL PRIMARY key,\
         username VARCHAR(40) UNIQUE NOT NULL,\
         password VARCHAR(40) NOT NULL,\
-        token TEXT,\
-        twoFA_secret TEXT\
+        token TEXT UNIQUE,\
+        twoFA_secret TEXT UNIQUE\
     );';
     return db.none(query);
 }

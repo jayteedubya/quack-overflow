@@ -88,10 +88,17 @@ class Queryer {
         const query = '\
         SELECT $1:name\
         FROM $2:name\
-        WHERE id BETWEEN $3:number AND $4:number;';
+        WHERE id BETWEEN $3 AND $4;';
         return db.any(query, [column, this.table, beginId, (beginId + chunkSize)]);
 
     }
+    incrementValue(column, amount, identifier, idValue) {
+        const query = '\
+        UPDATE $1:name\
+        SET $2 = $2 + $3\
+        WHERE $4:name = $5;';
+        return db.none(query, [this.table, column, amount, identifier, idValue]);
+    } 
 }
 
 module.exports = Queryer;
