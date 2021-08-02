@@ -39,3 +39,18 @@ takes two arguments:
     - table, the name of the table that this queryer will work in
     - columns, a list of strings representing all of the column names needed for an insert (excludes columns with a default case)
 for further documentation, consult the inline documentation comments in the queryer.js file
+
+*** answers.js ***
+* this file exports a new instance of the Answers class. the purpose of the answers class is to provide a set of 
+pre-built queries pertaining to the answers table on the database. its constructor takes no arguments.
+for further documentation, consult the inline comments in the answers.js file.
+
+*** questions.js ***
+* this file exports a new instance of the Questions class. the purpose of the questions class is to provide a set of 
+pre-built queries pertaining to the questions table on the database. its constructor takes no arguments.
+for further documentation, consult the inline comments in the questions.js file.
+
+*** users.js ***
+* this file exports a new instance of the Users class. the purpose of the users class is to provide a set of 
+pre-built queries pertaining to the users table on the database. its constructor takes no arguments.
+for further documentation, consult the inline comments in the users.js file.

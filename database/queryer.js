@@ -92,13 +92,51 @@ class Queryer {
         return db.any(query, [column, this.table, beginId, (beginId + chunkSize)]);
 
     }
+    /**
+     * increments the value in a row for the specified column by the specified amount
+     * @param {string} column 
+     * @param {number} amount 
+     * @param {string} identifier 
+     * @param {any} idValue 
+     * @returns nothing
+     */
     incrementValue(column, amount, identifier, idValue) {
         const query = '\
         UPDATE $1:name\
-        SET $2 = $2 + $3\
+        SET $2:name = $2:name + $3:value\
         WHERE $4:name = $5;';
         return db.none(query, [this.table, column, amount, identifier, idValue]);
-    } 
+    }
+    /**
+     * decrements the value in a row for the specified column by the specified amount
+     * @param {string} column 
+     * @param {number} amount 
+     * @param {string} identifier 
+     * @param {any} idValue 
+     * @returns nothing
+     */
+    decrementValue(column, amount, identifier, idValue) {
+        const query = '\
+        UPDATE $1:name\
+        SET $2:name = $2:name - $3:value\
+        WHERE $4:name = $5;';
+        return db.none(query, [this.table, column, amount, identifier, idValue]);
+    }
+    /**
+     * 
+     * @param {*} func 
+     * @param {*} column 
+     * @param {*} identifier 
+     * @param {*} id_value 
+     * @returns the specified aggregrate for the column
+     */
+    getAggregate(func, column, identifier, id_value) {
+        const query = '\
+        SELECT $1:value($2:value)\
+        FROM $3:name\
+        WHERE $4:name = $5;';
+        return db.one(query, [func, column, this.table, identifier, id_value]);
+    }
 }
 
 module.exports = Queryer;
