@@ -64,11 +64,23 @@ class Users extends Queryer {
     getUserPublic(username) {
         return this.getColumnFromAttribute(['bio', 'title', 'username'], 'username', username);
     }
+    /**
+     * edits a users bio, replacing the existing text with that provided
+     * @param {string} username 
+     * @param {string} bio 
+     * @returns nothing
+     */
     editUserBio(username, bio) {
-        return
+        return this.updateRow('bio', bio, 'username', username);
     }
+    /**
+     * edits a users title, replacing the existing on with that provided
+     * @param {string} username 
+     * @param {string} title 
+     * @returns 
+     */
     editUserTitle(username, title) {
-        return
+        return this.updateRow('title', title, 'username', username);
     }
 }
 

@@ -62,6 +62,14 @@ class Answers extends Queryer {
     editAnswer(id, body) {
         return this.updateRow('body', body, 'id', id);
     }
+    /**
+     * gets all answers given by the specified user
+     * @param {string} username 
+     * @returns an array of answers
+     */
+    getAllAnswersByUser(username) {
+        return this.getColumnFromAttribute('*', 'author', username);
+    }
 
 }
 
