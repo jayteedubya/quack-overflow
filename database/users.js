@@ -21,6 +21,14 @@ class Users extends Queryer {
         return this.getColumnFromAttribute('token', 'username', username);
     }
     /**
+     * updates the users token in the db
+     * @param {string} username 
+     * @returns nothing
+     */
+    updateUserToken(username, token) {
+        return this.updateRow('token', token, 'username', username);
+    }
+    /**
      * returns the id given the username
      * @param {string} username 
      * @returns the users id
