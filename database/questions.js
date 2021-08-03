@@ -45,7 +45,7 @@ class Questions extends Queryer {
      * @returns an array of question objects
      */
     getAllQuestionsByUser(username) {
-        return this.getColumnFromAttribute('*', 'username', username)
+        return this.getColumnFromAttribute('*', 'author', username)
     }
     /**
      * retrieves all questions from the database with the specified topic

@@ -11,7 +11,7 @@ general
 
 ** routes **
 
-- /:username/public
+- /:username
     GET - returns an object containing the username, bio, and title associated with :username
 
 - /:username/questions
