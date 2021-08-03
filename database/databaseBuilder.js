@@ -6,6 +6,8 @@ const buildUsersTable = () => {
         id SERIAL PRIMARY key,\
         username VARCHAR(40) UNIQUE NOT NULL,\
         password VARCHAR(40) NOT NULL,\
+        bio VARCHAR(300) NOT NULL,\
+        title VARCHAR(60),\
         token TEXT UNIQUE,\
         twoFA_secret TEXT UNIQUE\
     );';

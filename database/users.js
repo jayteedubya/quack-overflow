@@ -56,6 +56,22 @@ class Users extends Queryer {
     deleteUser(id) {
         return this.deleteRow('id', id);
     }
+    /**
+     * gets a users publicly available information
+     * @param {string} username 
+     * @returns an object containing a users username, bio, and title
+     */
+    getUserPublic(username) {
+        return this.getColumnFromAttribute(['bio', 'title', 'username'], 'username', username);
+    }
+    editUserBio(username, bio) {
+        return
+    }
+    editUserTitle(username, title) {
+        return
+    }
 }
 
-module.exports = new Users();
+const users = new Users();
+
+module.exports = users

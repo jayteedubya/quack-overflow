@@ -6,6 +6,8 @@ id | username | password | token | twofa_secret
 * id - SERIAL INTEGER - the user identifier - PRIMARY KEY
 * username - VARCHAR(40) - the username - UNIQUE NOT NULL
 * password - VARCHAR(40) - the users password - NOT NULL
+* bio - VARCHAR(300) - a short biography written by the user
+* title - VARCHAR(60)
 * token - TEXT - the users current json web token - UNIQUE
 * twofa_secret - TEXT - the users two factor authentication secret - UNIQUE
 

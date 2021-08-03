@@ -65,4 +65,6 @@ class Answers extends Queryer {
 
 }
 
-module.exports = new Answers();
+const answers = new Answers();
+
+module.exports = answers;

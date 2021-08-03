@@ -11,8 +11,19 @@ class Queryer {
         this.columns = new pg.helpers.ColumnSet(columns)
     }
     /**
+     * purges all values from the table, resets any counters, and cascades into linked tables TESTING ONLY
+     * @returns nothing
+     */
+    destroy() {
+        const query = '\
+        TRUNCATE $1:name\
+        RESTART IDENTITY\
+        CASCADE;';
+        return db.none(query, this.table);
+    }
+    /**
      * returns an array of values from the specified columns
-     * @param {string || array} column - the column or columns you wish to receive
+     * @param {string|array} column - the column or columns you wish to receive
      * @param {string} attribute - the attribute by which you wish to identify the row which you are querying
      * @param {any} value - the value of the attribute you wish to use to identify the row
      * @returns an object, keyed with the columns requested

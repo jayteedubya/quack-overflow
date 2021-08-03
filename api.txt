@@ -1,0 +1,60 @@
+general
+- base url for all routes is /api
+- all responses are given as json
+- all routes marked with a $ are authenticated
+- all routes marked with a - are un-authenticated
+
+**** users - the sites user base ****
+
+** url **
+- /users
+
+** routes **
+
+- /:username/public
+    GET - returns an object containing the username, bio, and title associated with :username
+
+- /:username/questions
+    GET - returns an array of all questions asked by :username
+
+- /:username/answers
+    GET - returns an array of all answers given by :username
+
+$ /:username/edit/bio
+    PUT - inserts the bio provided on the request body into the database as {:username}'s new bio
+
+$ /:username/edit/title
+    PUT - inserts the title provided on the request body as {:username}'s new title
+
+
+**** auth - handles authentication and onboarding ****
+
+** url **
+- /auth
+
+** routes **
+
+- /sign-in
+    POST - compares the username and password provided in the request body with that stored in the database, and assigns a json web token if they match
+    GET - returns a true or false, indicating whether the user is signed in (true) or not (false)
+
+- /sign-up
+    POST - adds a new user to the database using the data provided in the request body. expects properties username, password, bio, and title
+
+$ /sign-out
+    POST - deletes the web token associated with the username provided in the request body from both the session cookie and the database
+
+$ /delete-account
+    DELETE - deletes the account associated with the username provided in the request body. 
+
+**** questions ****
+
+** url **
+/questions
+
+** routes **
+
+
+
+
+

@@ -58,5 +58,7 @@ class Questions extends Queryer {
 
 }
 
-module.exports = new Questions();
+const questions = new Questions();
+
+module.exports = questions;
 
