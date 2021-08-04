@@ -2,7 +2,7 @@ const Queryer = require('./queryer');
 
 class Users extends Queryer {
     constructor() {
-        super('users', ['username', 'password', 'token', 'twofa_secret']);
+        super('users', ['username', 'password', 'token', 'bio', 'title']);
     }
     /**
      * retrieves a users password and token given a username
@@ -41,11 +41,12 @@ class Users extends Queryer {
      * @param {string} username 
      * @param {string} password 
      * @param {string} token 
-     * @param {string} twofa_secret 
+     * @param {string} bio
+     * @param {string} title
      * @returns an empty promise
      */
-    createNewUser(username, password, token, twofa_secret) {
-        return this.addRow([username, password, token, twofa_secret]);
+    createNewUser(username, password, token, bio, title) {
+        return this.addRow([username, password, token, bio, title]);
     }
     /**
      * changes a users password
