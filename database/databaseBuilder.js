@@ -5,7 +5,7 @@ const buildUsersTable = () => {
     CREATE TABLE users(\
         id SERIAL PRIMARY key,\
         username VARCHAR(40) UNIQUE NOT NULL,\
-        password VARCHAR(40) NOT NULL,\
+        password TEXT NOT NULL,\
         bio VARCHAR(300) NOT NULL,\
         title VARCHAR(60),\
         token TEXT UNIQUE,\

@@ -16,6 +16,17 @@ const resolver = async (promise) => {
     }
 }
 
+const tryHandler = (callBack) => {
+    try {
+        data = callBack()
+        return [data, null]
+    }
+    catch (error) {
+        console.error(error);
+        return [null, error]
+    }
+}
+
 const validateNewProfile = (body) => {
     const {username, password, bio, title} = body
     if (!bio || !title || !username || !password) {
@@ -43,4 +54,4 @@ const validateNewProfile = (body) => {
 }
 
 
-module.exports = { resolver, validateNewProfile };
+module.exports = { resolver, validateNewProfile, tryHandler };
