@@ -29,7 +29,7 @@ authRouter.post('/sign-in', async (req, res, next) => {
     res.status(401).json({error: 'password and username do not match'});
     return;
 });
-//HASH PASSWORDS FFS
+
 authRouter.post('/sign-up', async (req, res, next) => {
     const { username, password, bio, title } = req.body;
     const validation = validateNewProfile(req.body);
@@ -52,12 +52,32 @@ authRouter.post('/sign-up', async (req, res, next) => {
     }
     res.sendStatus(201);
     return;
+});
+
+authRouter.get('/check-availability', async (req, res, next) => {
+    const username = req.body.username;
+    [ id, error ] = await resolver(users.getIdFromUsername(username));
+    if (id[0]) {
+        
+        res.json({message: 'username already taken.'});
+        return;
+    }
+    if (error) {
+        next(error);
+        return;
+    }
+    res.json({message: 'username available!'});
+    return;
 })
 
 authRouter.get('/test', authorizeRequest, (req, res, next) => {
     const token = req.session.token;
     const username = req.credentials.username;
     res.json({ token, username });
+});
+
+authRouter.delete('/delete-user', (req, res, next) => {
+    res.json({message: 'nice try!'})
 })
 
 module.exports = authRouter;
