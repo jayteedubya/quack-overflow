@@ -76,8 +76,12 @@ authRouter.get('/test', authorizeRequest, (req, res, next) => {
     res.json({ token, username });
 });
 
-authRouter.delete('/delete-user', (req, res, next) => {
-    res.json({message: 'nice try!'})
+authRouter.delete('/delete-user/:username', authorizeRequest, (req, res, next) => {
+    const { username } = req.credentials;
+    if (req.params.username !== username) {
+        res.status(403).json({ error: 'you do not have permission to delete this persons profile!'})
+    }
+    res.status(200).json({message: 'user successfully deleted!'});
 })
 
 module.exports = authRouter;
