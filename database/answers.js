@@ -70,7 +70,14 @@ class Answers extends Queryer {
     getAllAnswersByUser(username) {
         return this.getColumnFromAttribute('*', 'author', username);
     }
-
+    /**
+     * gets the author of the answer
+     * @param {number} id 
+     * @returns an array containing an object with propery author
+     */
+    getAuthorById(id) {
+        return this.getColumnFromAttribute('author', 'id', id);
+    }
 }
 
 const answers = new Answers();

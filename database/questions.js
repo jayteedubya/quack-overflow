@@ -55,7 +55,30 @@ class Questions extends Queryer {
     getAllQuestionsInTopic(topic) {
         return this.getColumnFromAttribute('*', 'topic', topic);
     }
-
+    /**
+     * gets a specific question from the db
+     * @param {number} id 
+     * @returns an array containing an object with all question details
+     */
+    getQuestionById(id) {
+        return this.getColumnFromAttribute('*', 'id', id);
+    }
+    /**
+     * increments the number of views a post has
+     * @param {number} id 
+     * @returns nothing
+     */
+    incrementViews(id) {
+        return this.incrementValue('views', 1, 'id', id);
+    }
+    /**
+     * returns the author of a specific post
+     * @param {number} id 
+     * @returns an array containg a n object with property author
+     */
+    getAuthorById(id) {
+        return this.getColumnFromAttribute('author', 'id', id)
+    }
 }
 
 const questions = new Questions();

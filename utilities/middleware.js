@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const users = require('../database/users');
+const questions = require('../database/questions');
+const answers = require('../database/answers');
 const { resolver, tryWrapper } = require('./utilities');
 const { isStrongPassword, isLength } = require('validator');
 
@@ -86,6 +88,83 @@ const authorizeRequest = (req, res, next) => {
 const verifyUserPermissions = (req, res, next) => {
     if (req.params.username !== req.credentials.username) {
         res.status(403).json({error: 'you do not have permission to edit this profile!'});
+        return;
+    }
+    next();
+    return;
+}
+
+/**
+ * verifies that the user trying to modify a post is the user who made it
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next 
+ * @returns null
+ */
+const verifyPostPermissions = async (req, res, next) => {
+    const id = req.params.id;
+    [ authorData, error ] = await resolver(questions.getAuthorById(id));
+    if (!authorData[0]) {
+        res.status(404).json({error: 'post could not be found'});
+        return;
+    }
+    const author = authorData[0].author;
+    if (author !== req.credentials.username) {
+        res.status(403).json({error: 'you do not have permission to modify this post!'});
+        return;
+    }
+    next();
+    return;
+}
+
+/**
+ * verifies that the user trying to modify the answer is the author of the answer
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next 
+ * @returns 
+ */
+const verifyAnswerPermissions = (req, res, next) => {
+    const id = req.params.id;
+    [ authorData, error ] = await resolver(answers.getAuthorById(id));
+    if (error) {
+        next(error);
+        return;
+    }
+    if (!authorData[0]) {
+        res.status(400).json({error: 'answers does not exist!'});
+        return;
+    }
+    const author = authorData[0].author;
+    if (author !== req.credentials.username) {
+        res.status(403).json({error: 'you do not have permission to modify this post'});
+        return;
+    }
+    next();
+    return;
+}
+
+/**
+ * ensures the submitted question body meets requirements
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next 
+ * @returns null
+ */
+const validateQuestionBody = (req, res, next) => {
+    const questionBody = req.body.questionBody;
+    if (!validator.isLength(questionBody, {max: 1000})) {
+        res.status(400).send({error: 'question body is too long'});
+        return;
+    }
+    next()
+    return;
+}
+
+const validateAnswerBody = (req, res, next) => {
+    const answerBody = req.body.answerBody;
+    if (!validator.isLength(answerBody, {max: 600})) {
+        res.status(400).send({error: 'answer body is too long'});
         return;
     }
     next();
@@ -186,4 +265,16 @@ const validateNewProfileBody = (req, res, next) => {
 }
 
 
-module.exports = { authorizeRequest, verifyUserPermissions, validateBio, validateTitle, validatePassword, validateUsername, validateNewProfileBody }
+module.exports = { 
+    authorizeRequest, 
+    verifyUserPermissions, 
+    verifyPostPermissions,
+    verifyAnswerPermissions, 
+    validateBio, 
+    validateTitle, 
+    validatePassword, 
+    validateUsername, 
+    validateNewProfileBody,
+    validateQuestionBody,
+    validateAnswerBody
+}
