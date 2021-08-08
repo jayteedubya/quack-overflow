@@ -2,25 +2,25 @@ const Queryer = require('./queryer');
 
 class Questions extends Queryer {
     constructor() {
-        super('questions', ['author', 'body', 'views', 'topic']);
+        super('questions', ['author', 'title', 'body', 'views', 'topic']);
     }
     /**
-     * gets a page of posts (25 posts per page) 
+     * gets a page of posts (25 posts per page) organized by time
      * @param {number} page | for posts 26 - 50, input 2
      * @returns an array of question objects
      */
-    getNextQuestions(page) {
-        return this.chunkedQuery('*', page * 25, 25);
+    getNextPageByTime(page) {
+        return this.chunkedQuery(['id', 'title', 'time', 'topic', 'views'], page * 25, 25, 'time');
     }
     /**
      * adds a new question ot the database
      * @param {string} author 
      * @param {string} body 
      * @param {string} topic 
-     * @returns nothing
+     * @returns on object containing the id of the post
      */
-    submitAQuestion(author, body, topic) {
-        return this.addRow([author, body, 0, topic]);
+    submitAQuestion(author, title, body, topic) {
+        return this.addRowReturning([author, title, body, 0, topic]);
     }
     /**
      * edits a question at the given id

@@ -47,6 +47,18 @@ class Queryer {
         return db.none(query, [this.table, this.columns.names, values]);
     }
     /**
+     * works the same as addRow, but returns the id of the row inserted
+     * @param {array} values 
+     * @returns an object containing property id
+     */
+    addRowReturning(values) {
+        const query = '\
+        INSERT INTO $1:name ($2:value)\
+        VALUES($3:csv)\
+        RETURNING id;';
+        return db.one(query, [this.table, this.columns.names, values]);
+    }
+    /**
      * updates a row identified with the identifier and idValue in the specified column with the data provided
      * @param {string} column - the column name whose value you would like to change
      * @param {any} value - the value you are replacing the original value with
@@ -95,12 +107,13 @@ class Queryer {
      * @param {number} chunkSize 
      * @returns a slice of the table starting at {beginId} with a length of {chunkSize}
      */
-    chunkedQuery(column, beginId, chunkSize) {
+    chunkedQuery(column, beginId, chunkSize, orderBy) {
         const query = '\
         SELECT $1:name\
         FROM $2:name\
-        WHERE id BETWEEN $3 AND $4;';
-        return db.any(query, [column, this.table, beginId, (beginId + chunkSize)]);
+        WHERE id BETWEEN $3 AND $4\
+        ORDER BY $5:name;';
+        return db.any(query, [column, this.table, beginId, (beginId + chunkSize), orderBy]);
 
     }
     /**

@@ -41,7 +41,7 @@ $ /:username/edit/title
 - /sign-up
     POST - adds a new user to the database using the data provided in the request body. expects properties username, password, bio, and title
 
--/check-username-availability
+- /check-username-availability
     GET - checks to see if the included username is available
 
 $ /sign-out

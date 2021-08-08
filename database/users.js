@@ -59,11 +59,11 @@ class Users extends Queryer {
     }
     /**
      * deletes a user from the database
-     * @param {number} id 
+     * @param {string} username
      * @returns an empty promise
      */
-    deleteUser(id) {
-        return this.deleteRow('id', id);
+    deleteUser(username) {
+        return this.deleteRow('username', username);
     }
     /**
      * gets a users publicly available information

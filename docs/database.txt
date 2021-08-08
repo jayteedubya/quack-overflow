@@ -15,6 +15,7 @@ questions - the questions users ask
 id | author | body | views | topic | time
 
 * id - SERIAL INTEGER - the identifier for the question - PRIMARY KEY
+* title - VARCHAR(80) - the title of the question
 * author - VARCHAR(40) - the user who asked the question - REFERENCES users(username)
 * body - VARCHAR(1000) - the text of the question
 * views - INTEGER - the number of views this post has

@@ -18,6 +18,7 @@ const buildQuestionsTable = () => {
     const query = '\
     CREATE TABLE questions(\
         id SERIAL PRIMARY KEY,\
+        title VARCHAR(80),\
         author VARCHAR(40) NOT NULL REFERENCES users(username),\
         body VARCHAR(1000),\
         views INTEGER,\
