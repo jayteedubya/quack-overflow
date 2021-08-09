@@ -65,7 +65,17 @@ authRouter.get('/refresh-token', authorizeRequest, async (req, res, next) => {
     
 });
 
-authRouter.post('/sign-out')
+authRouter.post('/sign-out', authorizeRequest, (req, res, next) => {
+    const username = req.credentials.username;
+    [ data, error ] = resolver(users.updateUserToken(username, null));
+    if (error) {
+        next(error);
+        return;
+    }
+    req.credentials = null;
+    req.session.token = null;
+    res.json({message: 'signed out!'});
+})
 
 authRouter.delete('/delete-user/:username', authorizeRequest, (req, res, next) => {
     const { username } = req.credentials;
