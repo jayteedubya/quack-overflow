@@ -7,6 +7,7 @@ const buildUsersTable = () => {
         username VARCHAR(40) UNIQUE NOT NULL,\
         password TEXT NOT NULL,\
         bio VARCHAR(300) NOT NULL,\
+        pobed_answers INTEGER[] NOT NULL DEFAULT \'{}\',\
         title VARCHAR(60),\
         token TEXT UNIQUE,\
         twoFA_secret TEXT UNIQUE\
@@ -23,7 +24,7 @@ const buildQuestionsTable = () => {
         body VARCHAR(1000),\
         views INTEGER,\
         topic VARCHAR(60),\
-        time TIMESTAMPTZ DEFAULT NOW()\
+        time TIMESTAMPTZ NOT NULL DEFAULT NOW()\
     );';
     return db.none(query);
 }
@@ -36,7 +37,7 @@ const buildAnswersTable = () => {
         pob_count INTEGER DEFAULT 0,\
         body VARCHAR(600),\
         question_id INT REFERENCES questions(id),\
-        time TIMESTAMPTZ DEFAULT NOW()\
+        time TIMESTAMPTZ NOT NULL DEFAULT NOW()\
     );';
     return db.none(query);
 }

@@ -124,7 +124,7 @@ const verifyPostPermissions = async (req, res, next) => {
  * @param {function} next 
  * @returns 
  */
-const verifyAnswerPermissions = (req, res, next) => {
+const verifyAnswerPermissions = async (req, res, next) => {
     const id = req.params.id;
     [ authorData, error ] = await resolver(answers.getAuthorById(id));
     if (error) {

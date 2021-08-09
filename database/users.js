@@ -86,10 +86,22 @@ class Users extends Queryer {
      * edits a users title, replacing the existing on with that provided
      * @param {string} username 
      * @param {string} title 
-     * @returns 
+     * @returns nothing
      */
     editUserTitle(username, title) {
         return this.updateRow('title', title, 'username', username);
+    }
+    /**
+     * 
+     * @param {number} id - the id of the answer to POB
+     * @param {string} username - the user patting the answer on the back
+     * @returns nothing
+     */
+    pobAnswer(id, username) {
+        return this.appendToArray(id, 'pobed_answers', 'username', username);
+    }
+    getUserPOBs(username) {
+        return this.getColumnFromAttribute('pobed_answers', 'username', username);
     }
 }
 

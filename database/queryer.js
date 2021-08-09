@@ -22,6 +22,21 @@ class Queryer {
         return db.none(query, this.table);
     }
     /**
+     * adds a value to a row in a column that houses an array
+     * @param {any} value - the value to add to the array
+     * @param {string} column - the column contating the array
+     * @param {string} rowIdentifier - the column used to identify the row being altered
+     * @param {any} idValue - the value used to identify the specific row
+     * @returns nothing
+     */
+    appendToArray(value, column, rowIdentifier, idValue) {
+        const query = '\
+        UPDATE $1:name\
+        SET $2:name = $2:name || $3:value\
+        WHERE $4:name = $5:value;';
+        return db.none(query, [this.table, column, value, rowIdentifier, idValue]);
+    }
+    /**
      * returns an array of values from the specified columns
      * @param {string|array} column - the column or columns you wish to receive
      * @param {string} attribute - the attribute by which you wish to identify the row which you are querying

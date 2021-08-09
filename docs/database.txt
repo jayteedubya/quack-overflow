@@ -7,6 +7,7 @@ id | username | password | token | twofa_secret
 * username - VARCHAR(40) - the username - UNIQUE NOT NULL
 * password - VARCHAR(40) - the users password - NOT NULL
 * bio - VARCHAR(300) - a short biography written by the user
+* pobed_answers - INTEGER[] - a list of ids of answer that the user has patted on the back
 * title - VARCHAR(60)
 * token - TEXT - the users current json web token - UNIQUE
 * twofa_secret - TEXT - the users two factor authentication secret - UNIQUE

@@ -57,6 +57,27 @@ $ /delete-account
 
 ** routes **
 
+- /?page=x
+    GET - gets 25 posts according to the page number i.e. the first page will contain the 25 most recent posts, second page 26 - 50 and so on. ala reddit.
+
+- /question/:id
+    GET - gets everything necessary to construct a post page, including answers
+    PUT - swaps the saved question body with the one provided in the request
+    DELETE - removes a question from the database
+
+- /question/new
+    POST - adds a new post to the database and returns the id of the new post for client side redirect
+
+**** answers ****
+
+** url **
+/answers
+
+** routes **
+
+- /:question_id
+    POST
+
 
 
 

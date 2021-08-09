@@ -54,10 +54,10 @@ questionsRouter.post('/question/new', authorizeRequest, validateQuestionBody, as
         next(error);
         return;
     }
-    res.status(303).redirect(`/question/${id}`);
+    res.status(200).json({ id });
 });
 
-questionsRouter.put('/question/:id', verifyPostPermissions, validateQuestionBody, (req, res, next) => {
+questionsRouter.put('/question/:id', verifyPostPermissions, validateQuestionBody, async (req, res, next) => {
     const questionBody = req.body.questionBody;
     const id = req.params.id
     [ data, error ] = await resolver(questions.editQuestion(questionBody, id));
@@ -69,7 +69,7 @@ questionsRouter.put('/question/:id', verifyPostPermissions, validateQuestionBody
     return;
 });
 
-questionsRouter.delete('question/:id', verifyPostPermissions, (req, res, next) => {
+questionsRouter.delete('question/:id', verifyPostPermissions, async (req, res, next) => {
     const id = req.params.id
     [ data, error ] = await resolver(questions.deleteQuestion(questionBody, id));
     if (error) {
@@ -78,4 +78,6 @@ questionsRouter.delete('question/:id', verifyPostPermissions, (req, res, next) =
     }
     res.json({message: "post deleted!"});
     return;
-})
+});
+
+module.exports = questionsRouter;
