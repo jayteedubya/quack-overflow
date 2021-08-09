@@ -146,5 +146,6 @@ describe('test all auth routes', () => {
             }
         ));
     })
+    describe('test the /sign-out route')
 });
 

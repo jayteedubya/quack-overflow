@@ -6,7 +6,7 @@ const index = require('./routes/index.js');
 const api = require('./routes/api.js')
 const app = express();
 
-app.use(session({secret: process.env.TOKEN_SECRET}))
+app.use(session({secret: process.env.TOKEN_SECRET, httpOnly: process.env.HTTP_ONLY}));
 app.use(express.json());
 app.use('/', index);
 app.use('/api', api)

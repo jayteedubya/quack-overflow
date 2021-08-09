@@ -3,7 +3,7 @@ const users = require('../../database/users.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { authorizeRequest, validateNewProfileBody, validateBio, validatePassword, validateUsername, validateTitle } = require('../../utilities/middleware');
-const { resolver } = require('../../utilities/utilities.js');
+const { resolver, tryWrapper } = require('../../utilities/utilities.js');
 
 const authRouter = require('express').Router();
 
@@ -48,11 +48,24 @@ authRouter.post('/sign-up', validateNewProfileBody, validateUsername,  validateP
     return;
 });
 
-authRouter.get('/test', authorizeRequest, (req, res, next) => {
-    const token = req.session.token;
-    const username = req.credentials.username;
-    res.json({ token, username });
+authRouter.get('/refresh-token', authorizeRequest, async (req, res, next) => {
+    const username = req.credentials.username
+    [ token, tokenError ] = tryWrapper(jwt.sign, [{ username }, process.env.TOKEN_SECRET, {expiresIn: '1h'}]);
+    if (tokenError) {
+        next(tokenError);
+        return;
+    }
+    [ data, databaseError ] = await resolver(users.updateUserToken(username, token));
+    if (databaseError) {
+        next(databaseError);
+        return;
+    }
+    req.session.token = token;
+    res.json({message: 'token refreshed!'});
+    
 });
+
+authRouter.post('/sign-out')
 
 authRouter.delete('/delete-user/:username', authorizeRequest, (req, res, next) => {
     const { username } = req.credentials;
