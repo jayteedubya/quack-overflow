@@ -34,14 +34,14 @@ usersRouter.get('/:username/answers', async (req, res, next) => {
     res.json(userAnswers);
 })
 
-usersRouter.put('/:username/edit/title', authorizeRequest, verifyUserPermissions, validateTitle, async (req, res, next) => {
+usersRouter.put('/:username/title', authorizeRequest, verifyUserPermissions, validateTitle, async (req, res, next) => {
     const title = req.body.title;
     const username = req.credentials.username;
     users.editUserTitle(username, title);
     res.sendStatus(201);
 })
 
-usersRouter.put('/:username/edit/bio', authorizeRequest, verifyUserPermissions, validateBio, async (req, res, next) => {
+usersRouter.put('/:username/bio', authorizeRequest, verifyUserPermissions, validateBio, async (req, res, next) => {
     const bio = req.body.bio;
     const username = req.credentials.username
     users.editUserBio(username, bio)

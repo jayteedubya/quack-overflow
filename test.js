@@ -147,5 +147,25 @@ describe('test all auth routes', () => {
         ));
     })
     describe('test the /sign-out route')
+    describe('test the token refresh route')
+    describe('test the delet account route')
 });
+
+describe('test all users routes', () => {
+    describe('test the /:username route')
+    describe('test the /:username/questions route')
+    describe('test the /:username/answers route')
+    describe('test the /:username/bio/ route (PUT)')
+    describe('test the /:username/title route (PUT)')
+});
+
+describe('test all the questions routes', () => {
+    describe('test the / questions route')
+    describe('test the questions/:id route (GET)')
+    describe('test the questions/:id route (PUT)')
+    describe('test the questions/:id route (DELETE)')
+    describe('test the /question/new route (POST)')
+})
+
+describe('')
 

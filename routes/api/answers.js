@@ -35,7 +35,7 @@ answersRouter.delete('/answer/:answerId', authorizeRequest, verifyAnswerPermissi
     return;
 });
 
-answersRouter.put('/answer/answerId/POB', authorizeRequest, async (req, res, next) => {
+answersRouter.put('/answer/:answerId/POB', authorizeRequest, async (req, res, next) => {
     const id = req.params.id;
     const username = req.credentials.username;
     [ userPOBs, userGetError ] = await resolver(users.getUserPOBs(username));

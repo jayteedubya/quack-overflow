@@ -1,4 +1,4 @@
-general
+** legend **
 - base url for all routes is /api
 - all responses are given as json
 - all routes marked with a $ are authenticated
@@ -20,10 +20,10 @@ general
 - /:username/answers
     GET - returns an array of all answers given by :username
 
-$ /:username/edit/bio
+$ /:username/bio
     PUT - inserts the bio provided on the request body into the database as {:username}'s new bio
 
-$ /:username/edit/title
+$ /:username/title
     PUT - inserts the title provided on the request body as {:username}'s new title
 
 
@@ -65,7 +65,7 @@ $ /delete-account
     PUT - swaps the saved question body with the one provided in the request
     DELETE - removes a question from the database
 
-- /question/new
+$ /question/new
     POST - adds a new post to the database and returns the id of the new post for client side redirect
 
 **** answers ****
@@ -75,8 +75,15 @@ $ /delete-account
 
 ** routes **
 
-- /:question_id
-    POST
+$ /:question_id
+    POST - adds a new answer to the questions
+
+$ /answers/:answerId
+    PUT - edits an existing answer
+    DELETE - deletes an existing answer
+
+$ /answers/:answerId/POB
+    PUT - increments the pob_count of the answer by 1
 
 
 
