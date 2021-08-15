@@ -50,7 +50,7 @@ authRouter.post('/sign-up', validateNewProfileBody, validateUsername,  validateP
 
 authRouter.get('/refresh-token', authorizeRequest, async (req, res, next) => {
     const username = req.credentials.username
-    [ token, tokenError ] = tryWrapper(jwt.sign, [{ username }, process.env.TOKEN_SECRET, {expiresIn: '1h'}]);
+    token = tryWrapper(jwt.sign, [{ username }, process.env.TOKEN_SECRET, {expiresIn: '1h'}]);
     if (tokenError) {
         next(tokenError);
         return;
@@ -65,9 +65,9 @@ authRouter.get('/refresh-token', authorizeRequest, async (req, res, next) => {
     
 });
 
-authRouter.post('/sign-out', authorizeRequest, (req, res, next) => {
+authRouter.post('/sign-out', authorizeRequest, async (req, res, next) => {
     const username = req.credentials.username;
-    [ data, error ] = resolver(users.updateUserToken(username, null));
+    [ data, error ] = await resolver(users.updateUserToken(username, null));
     if (error) {
         next(error);
         return;
@@ -80,10 +80,12 @@ authRouter.post('/sign-out', authorizeRequest, (req, res, next) => {
 authRouter.delete('/delete-user/:username', authorizeRequest, (req, res, next) => {
     const { username } = req.credentials;
     if (req.params.username !== username) {
-        res.status(403).json({ error: 'you do not have permission to delete this persons profile!'})
+        res.status(403).json({error: 'you do not have permission to delete this persons profile!'});
+        return;
     }
     users.deleteUser(username);
     res.status(200).json({message: 'user successfully deleted!'});
+    return;
 })
 
 module.exports = authRouter;

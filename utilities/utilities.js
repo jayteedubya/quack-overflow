@@ -22,7 +22,7 @@ const resolver = async (promise) => {
  */
 const tryWrapper = (callBack, params) => {
     try {
-        data = callBack(...params)
+        const data = callBack(...params);
         return [data, null]
     }
     catch (error) {

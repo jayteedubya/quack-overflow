@@ -5,7 +5,8 @@
   "main": "bin/www",
   "scripts": {
     "start": "node bin/www",
-    "test": "./node_modules/.bin/jest"
+    "test": "./node_modules/.bin/jest",
+    "test fix": "./node_modules/.bin/jest --detectOpenHandles"
   },
   "author": "Jacob Williams",
   "license": "Unlicense",
@@ -24,6 +25,7 @@
     "pg-monitor": "^1.4.1",
     "random-words": "^1.1.1",
     "superagent": "^6.1.0",
-    "supertest": "^6.1.4"
+    "supertest": "^6.1.4",
+    "supertest-session": "^4.1.0"
   }
 }

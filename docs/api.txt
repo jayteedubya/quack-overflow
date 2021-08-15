@@ -47,8 +47,8 @@ $ /:username/title
 $ /sign-out
     POST - deletes the web token associated with the username provided in the request body from both the session cookie and the database
 
-$ /delete-account
-    DELETE - deletes the account associated with the username provided in the request body. 
+$ /delete-account/:username
+    DELETE - deletes the account associated with :username
 
 **** questions ****
 
@@ -65,7 +65,7 @@ $ /delete-account
     PUT - swaps the saved question body with the one provided in the request
     DELETE - removes a question from the database
 
-$ /question/new
+$ /new
     POST - adds a new post to the database and returns the id of the new post for client side redirect
 
 **** answers ****

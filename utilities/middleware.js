@@ -55,7 +55,7 @@ const extractUsernameFromToken = (token) => {
  * @param {function} next 
  * @returns null
  */
-const authorizeRequest = (req, res, next) => {
+const authorizeRequest = async (req, res, next) => {
     const submittedToken = getRequestToken(req);
     if (!submittedToken) {
         res.status(401).json({error: 'please sign in to do this'});
@@ -66,16 +66,17 @@ const authorizeRequest = (req, res, next) => {
         res.status(500).json({error: 'credentials could not be verified'});
         return;
     }
-    const storedToken = getStoredToken(decodedUsername);
+    storedToken = await getStoredToken(decodedUsername);
     if (!storedToken || storedToken !== submittedToken) {
+        console.log('submitted: ' + submittedToken);
+        console.log('stored: ', storedToken);
         res.status(401).json({error: 'submitted token could not be verified with database'});
         return;
     }
     req.credentials = {};
-    req.credentials.username = username;
-    req.credentials.token = token;
+    req.credentials.username = decodedUsername;
+    req.credentials.token = submittedToken;
     next()
-    return;
 }
 
 /**
@@ -153,8 +154,16 @@ const verifyAnswerPermissions = async (req, res, next) => {
  */
 const validateQuestionBody = (req, res, next) => {
     const questionBody = req.body.questionBody;
-    if (!validator.isLength(questionBody, {max: 1000})) {
-        res.status(400).send({error: 'question body is too long'});
+    if (!isLength(questionBody, {max: 1000})) {
+        res.status(400).json({error: 'question body must be between 1 and 1000 characters long'});
+        return;
+    }
+    if(!isLength(req.body.topic, {min: 1, max: 60})) {
+        res.status(400).json({error: 'question topic must be between 1 and 60 characters long'});
+        return;
+    }
+    if(!isLength(req.body.title, {min: 1, max: 80})) {
+        res.status(400).json({error: 'question title must be between 1 and 80 characters long'});
         return;
     }
     next()
@@ -163,7 +172,7 @@ const validateQuestionBody = (req, res, next) => {
 
 const validateAnswerBody = (req, res, next) => {
     const answerBody = req.body.answerBody;
-    if (!validator.isLength(answerBody, {max: 600})) {
+    if (!isLength(answerBody, {max: 600})) {
         res.status(400).send({error: 'answer body is too long'});
         return;
     }

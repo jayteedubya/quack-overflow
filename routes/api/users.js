@@ -11,9 +11,14 @@ usersRouter.get('/:username', async (req, res, next) => {
     [ userData, error ] = await resolver(query);
     if (error) {
         next(error);
+        return;
+    }
+    if (!userData[0]) {
+        res.status(404).json({error: "profile not found"});
+        return;
     }
     res.json(userData[0]);
-    
+    return;
 });
 
 usersRouter.get('/:username/questions', async (req, res, next) => {

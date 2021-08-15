@@ -18,6 +18,17 @@ questionsRouter.get('/', async (req, res, next) => {
     return;
 });
 
+questionsRouter.post('/new', authorizeRequest, validateQuestionBody, async (req, res, next) => {
+    const { questionBody, title, topic } = req.body;
+    const author = req.credentials.username;
+    [ id, error ] = await resolver(questions.submitAQuestion(author, title, questionBody, topic));
+    if (error) {
+        next(error);
+        return;
+    }
+    res.status(200).json({ id });
+});
+
 questionsRouter.get('/question/:id', async (req, res, next) => {
     const id = req.params.id;
     [ question, questionError ] = await resolver(questions.getQuestionById(id));
@@ -44,17 +55,6 @@ questionsRouter.get('/question/:id', async (req, res, next) => {
     fullQuestion.answers = answers;
     res.json(fullQuestion);
     return;
-});
-
-questionsRouter.post('/question/new', authorizeRequest, validateQuestionBody, async (req, res, next) => {
-    const { questionBody, title, topic } = req.body;
-    const author = req.credentials.username;
-    [ id, error ] = await resolver(questions.submitAQuestion(author, title, questionBody, topic));
-    if (error) {
-        next(error);
-        return;
-    }
-    res.status(200).json({ id });
 });
 
 questionsRouter.put('/question/:id', verifyPostPermissions, validateQuestionBody, async (req, res, next) => {
