@@ -41,8 +41,14 @@ usersRouter.get('/:username/answers', async (req, res, next) => {
     [ userAnswers, error ] = await resolver(query);
     if (error) {
         next(error);
+        return;
+    }
+    if (userAnswers.length < 1) {
+        res.status(404).json({message: "this user has no answers or does not exist"});
+        return
     }
     res.json(userAnswers);
+    return;
 })
 
 usersRouter.put('/:username/title', authorizeRequest, verifyUserPermissions, validateTitle, async (req, res, next) => {
