@@ -300,14 +300,21 @@ describe('test all users routes', () => {
             expect(response.body).toStrictEqual({message: "this user has no answers or does not exist"})
         })
     });
-    describe('test the /:username/bio/ route (PUT)', () => {
+    describe('test the /:username/bio route (PUT)', () => {
         test('it shouldn\'t edit the bio of a profile when not logged in', async () => {
-
+            const response = await supertest(app)
+                .put('/api/users/tester/bio')
+                .set('Accept', 'application/json')
+                .send({bio: "edited bio"});
+            expect(response.body).toStrictEqual({error: 'please sign in to do this'});
         });
         test('it shouldn\'t edit the bio of a profile when requested by a different username than the owner', async () => {
 
         });
-        test('it should edit the bio when the owner is logged in and requests it', () => {
+        test('it should edit the bio when the owner is logged in and requests it', async () => {
+
+        });
+        test('it should handle a request made on a user that doesn\'t exist', async () => {
 
         });
     });
@@ -326,48 +333,48 @@ describe('test all users routes', () => {
 
 describe('test all the questions routes', () => {
     describe('test the / questions route', () => {
-        test('should retrieve the first 25 questions', () => {
+        test('should retrieve the first 25 questions', async () => {
 
         });
-        test('should send a message if the page requested has no contents', () => {
+        test('should send a message if the page requested has no contents', async () => {
 
         });
     });
     describe('test the questions/:id route (GET)', () => {
-        test('should get the post object', () => {
+        test('should get the post object', async () => {
 
         });
-        test('should return an error if the requested post does not exist', () => {
+        test('should return an error if the requested post does not exist', async () => {
 
         });
     });
     describe('test the questions/:id route (PUT)', () => {
-        test('should not edit the post if not logged in', () => {
+        test('should not edit the post if not logged in', async () => {
 
         });
-        test('should not edit the post if user is logged in but not the author', () => {
+        test('should not edit the post if user is logged in but not the author', async () => {
 
         });
-        test('should edit the post if the author is logged in and requesting it', () => {
+        test('should edit the post if the author is logged in and requesting it', async () => {
 
         })
     })
     describe('test the questions/:id route (DELETE)', () => {
-        test('should not delete if user is not logged in', () => {
+        test('should not delete if user is not logged in', async () => {
 
         });
-        test('should not delete if user is logged in but not author', () => {
+        test('should not delete if user is logged in but not author', async () => {
 
         });
-        test('should delete post if author is logged in and requesting it', () => {
+        test('should delete post if author is logged in and requesting it', async () => {
 
         });
     });
     describe('test the /question/new route (POST)', () => {
-        test('should not post if the user is not logged in', () => {
+        test('should not post if the user is not logged in', async () => {
 
         });
-        test('should post if user is logged in', () => {
+        test('should post if user is logged in', async () => {
 
         });
     });
@@ -375,43 +382,43 @@ describe('test all the questions routes', () => {
 
 describe('test all the answers routes', () => {
     describe('test the /questionId route (POST)', () => {
-        test('should not post answer when user is not logged in', () => {
+        test('should not post answer when user is not logged in', async () => {
 
         });
-        test('should not post answer if question does not exist', () => {
+        test('should not post answer if question does not exist', async () => {
 
         });
-        test('should post answer if user logged in and question exists', () => {
+        test('should post answer if user logged in and question exists', async () => {
 
         });
     });
     describe('test the /answer/answerId route (PUT)', () => {
-        test('should not edit answer if user not logged in', () => {
+        test('should not edit answer if user not logged in', async () => {
 
         });
-        test('should not edit answer if user logged in but not the author', () => {
+        test('should not edit answer if user logged in but not the author', async () => {
 
         });
-        test('should edit the answer if the user is logged in and the author', () => {
+        test('should edit the answer if the user is logged in and the author', async () => {
 
         });
     });
     describe('test the /answer/answerId route (DELETE)', () => {
-        test('should not delete answer if user not logged in', () => {
+        test('should not delete answer if user not logged in', async () => {
 
         });
-        test('should not delete answer if user logged in but not the author', () => {
+        test('should not delete answer if user logged in but not the author', async () => {
 
         });
-        test('should delete the answer if the user is logged in and the author', () => {
+        test('should delete the answer if the user is logged in and the author', async () => {
 
         });
     });
     describe('test the /answer/answerId/POB route (PUT)', () => {
-        test('should not ePOB answer if user not logged in', () => {
+        test('should not ePOB answer if user not logged in', async () => {
 
         });
-        test('should POB the answer if the user is logged in', () => {
+        test('should POB the answer if the user is logged in', async () => {
 
         });
     });
