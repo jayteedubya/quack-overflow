@@ -26,8 +26,14 @@ usersRouter.get('/:username/questions', async (req, res, next) => {
     [ userQuestions, error ] = await resolver(query);
     if (error) {
         next(error);
+        return;
+    }
+    if (userQuestions.length < 1) {
+        res.status(404).json({message: "this user has no posts or does not exist"});
+        return;
     }
     res.json(userQuestions);
+    return;
 });
 
 usersRouter.get('/:username/answers', async (req, res, next) => {

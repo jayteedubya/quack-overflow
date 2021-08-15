@@ -266,6 +266,12 @@ describe('test all users routes', () => {
             expect(response.body[0].id).toStrictEqual(1);
             expect(response.body[0].title).toBe('questionable');
             expect(response.body[0].topic).toBe('tests');
+        });
+        test('should not crash when asked for a user that doesn\'t exist', async () => {
+            const response = await supertest(app)
+                .get('/api/users/notRealMan/questions')
+                .set('Accept', 'application/json');
+            expect(response.body).toStrictEqual({message: "this user has no posts or does not exist"});
         })
     });
     describe('test the /:username/answers route', () => {
