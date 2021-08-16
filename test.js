@@ -309,7 +309,24 @@ describe('test all users routes', () => {
             expect(response.body).toStrictEqual({error: 'please sign in to do this'});
         });
         test('it shouldn\'t edit the bio of a profile when requested by a different username than the owner', async () => {
-
+            await signupTest(
+                {
+                    username: "thisMeetsCriteriaAlso",
+                    password: "Va1idP@ssword",
+                    bio: "Hi there, I meet the criteria for a new profile.",
+                    title: "criteria met"
+                },
+                {
+                    message: "profile created!"
+                }
+            );
+            const credentials = await getCredentials('thisMeetsCriteriaAlso', 'Va1idP@ssword');
+            const response = await supertest(app)
+                .put('/api/users/tester/bio')
+                .send({bio: "edited bio"})
+                .set('Cookie', credentials)
+                .set('Accept', 'application/json');
+            expect(response.body).toStrictEqual({error: 'you do not have permission to alter this information!'})
         });
         test('it should edit the bio when the owner is logged in and requests it', async () => {
 
@@ -323,7 +340,7 @@ describe('test all users routes', () => {
 
         });
         test('it shouldn\'t edit the title of a profile when requested by a user other than the owner', async () => {
-
+//28 more tests to write
         });
         test('it should edit the title when the owner is logged in', async () => {
 

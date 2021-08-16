@@ -88,7 +88,7 @@ const authorizeRequest = async (req, res, next) => {
  */
 const verifyUserPermissions = (req, res, next) => {
     if (req.params.username !== req.credentials.username) {
-        res.status(403).json({error: 'you do not have permission to edit this profile!'});
+        res.status(403).json({error: 'you do not have permission to alter this information!'});
         return;
     }
     next();
