@@ -31,6 +31,9 @@ const tryWrapper = (callBack, params) => {
     }
 }
 
+const range = (length) => {
+    return [...Array(length).keys()]
+}
 
 
-module.exports = { resolver, tryWrapper };
+module.exports = { resolver, tryWrapper, range };

@@ -2,7 +2,9 @@ const app = require('./app.js');
 const supertest = require('supertest');
 const users = require('./database/users.js');
 const questions = require('./database/questions.js');
+const randWords = require('random-words');
 const answers = require('./database/answers.js');
+const { range } = require('./utilities/utilities.js');
 
 beforeAll(async () => await users.destroy());
 beforeAll(async () => await questions.destroy());
@@ -48,13 +50,18 @@ const createTestPost = async (body) => {
     return response;
 }
 
+const getRandomBody = () => {
+    const body = randWords(15);
+    return body;
+}
+
 const createTestAnswer = async (body, questionID) => {
     const credentials = await getCredentials();
     const response = await supertest(app)
         .post(`/api/answers/${questionID}`)
         .send(body)
         .set('Cookie', credentials)
-        .set('Accept', 'appliacation/json')
+        .set('Accept', 'application/json')
     return response;
 }
 
@@ -309,7 +316,7 @@ describe('test all users routes', () => {
             expect(response.body).toStrictEqual({error: 'please sign in to do this'});
         });
         test('it shouldn\'t edit the bio of a profile when requested by a different username than the owner', async () => {
-            await signupTest(
+            const result = await signupTest(
                 {
                     username: "thisMeetsCriteriaAlso",
                     password: "Va1idP@ssword",
@@ -327,32 +334,63 @@ describe('test all users routes', () => {
                 .set('Cookie', credentials)
                 .set('Accept', 'application/json');
             expect(response.body).toStrictEqual({error: 'you do not have permission to alter this information!'})
-        });
+        }); //28 to go
         test('it should edit the bio when the owner is logged in and requests it', async () => {
-
+            const credentials = await getCredentials();
+            const response = await supertest(app)
+                .put('/api/users/tester/bio')
+                .send({bio: 'edited bio'})
+                .set('Cookie', credentials)
+                .set('Accept', 'application/json');
+            expect(response.body).toStrictEqual({message: 'bio edited successfully'});
         });
         test('it should handle a request made on a user that doesn\'t exist', async () => {
-
+            const credentials = await getCredentials();
+            const response = await supertest(app)
+                .put('/api/users/testface/bio')
+                .send({bio: 'edited bio'})
+                .set('Cookie', credentials)
+                .set('Accept', 'application/json');
+            console.log(response.body);
+            expect(response.body).toStrictEqual({error: 'you do not have permission to alter this information!'});
         });
     });
     describe('test the /:username/title route (PUT)', () => {
         test('it shouldn\'t edit the title of a profile when not logged in', async () => {
-
+            const response = await supertest(app)
+                .put('/api/users/tester/title')
+                .set('Accept', 'application/json')
+                .send({title: "edited title"});
+            expect(response.body).toStrictEqual({error: 'please sign in to do this'});
         });
         test('it shouldn\'t edit the title of a profile when requested by a user other than the owner', async () => {
-//28 more tests to write
+            const credentials = await getCredentials('thisMeetsCriteriaAlso', 'Va1idP@ssword');
+            const response = await supertest(app)
+                .put('/api/users/tester/title')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials)
+                .send({title: "edited title"});
+            expect(response.body).toStrictEqual({error: 'you do not have permission to alter this information!'});
         });
         test('it should edit the title when the owner is logged in', async () => {
-
+            const credentials = await getCredentials();
+            const response = await supertest(app)
+                .put('/api/users/tester/title')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials)
+                .send({title: "edited title"});
+            expect(response.body).toStrictEqual({message: 'title edited successfully'});
         });
     });
 });
-
+//23 left
 describe('test all the questions routes', () => {
     describe('test the / questions route', () => {
+        range(25).forEach(async () => await createTestPost(getRandomBody()));
         test('should retrieve the first 25 questions', async () => {
-
-        });
+            const response = await supertest(app)
+                .put('/api/questions?')
+        }); //22 left
         test('should send a message if the page requested has no contents', async () => {
 
         });
@@ -360,15 +398,15 @@ describe('test all the questions routes', () => {
     describe('test the questions/:id route (GET)', () => {
         test('should get the post object', async () => {
 
-        });
+        }); //21 left
         test('should return an error if the requested post does not exist', async () => {
 
-        });
+        }); //20 left
     });
     describe('test the questions/:id route (PUT)', () => {
         test('should not edit the post if not logged in', async () => {
 
-        });
+        }); //19 left
         test('should not edit the post if user is logged in but not the author', async () => {
 
         });

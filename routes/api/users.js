@@ -52,16 +52,22 @@ usersRouter.get('/:username/answers', async (req, res, next) => {
 })
 
 usersRouter.put('/:username/title', authorizeRequest, verifyUserPermissions, validateTitle, async (req, res, next) => {
-    const title = req.body.title;
-    const username = req.credentials.username;
-    users.editUserTitle(username, title);
-    res.sendStatus(201);
+    [ data, error ] = await resolver(users.editUserTitle(req.credentials.username, req.body.title));
+    if (error) {
+        next(error);
+        return;
+    }
+    res.json({message: 'title edited successfully'});
+    return;
 })
 
 usersRouter.put('/:username/bio', authorizeRequest, verifyUserPermissions, validateBio, async (req, res, next) => {
-    const bio = req.body.bio;
-    const username = req.credentials.username
-    users.editUserBio(username, bio)
+    [ data, error ] = await resolver(users.editUserBio(req.credentials.username, req.body.bio));
+    if (error) {
+        next(error);
+        return;
+    }
+    res.json({message: 'bio edited successfully'});
 })
 
 module.exports = usersRouter;

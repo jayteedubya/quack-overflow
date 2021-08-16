@@ -14,8 +14,10 @@ apiRouter.use((err, req, res, next) => {
     if (err) {
         console.log(err);
         res.status(500).json({ err });
+        return;
     }
     next()
+    return;
 })
 
 module.exports = apiRouter;
