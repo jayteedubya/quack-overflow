@@ -68,8 +68,6 @@ const authorizeRequest = async (req, res, next) => {
     }
     storedToken = await getStoredToken(decodedUsername);
     if (!storedToken || storedToken !== submittedToken) {
-        console.log('submitted: ' + submittedToken);
-        console.log('stored: ', storedToken);
         res.status(401).json({error: 'submitted token could not be verified with database'});
         return;
     }

@@ -6,6 +6,7 @@ const randWords = require('random-words');
 const answers = require('./database/answers.js');
 const { range } = require('./utilities/utilities.js');
 
+
 beforeAll(async () => await users.destroy());
 beforeAll(async () => await questions.destroy());
 beforeAll(async () => await answers.destroy());
@@ -40,8 +41,10 @@ const signupTest = async (body, expectedResponse) => {
     expect(response.body).toEqual(expectedResponse);
 }
 
-const createTestPost = async (body) => {
-    const credentials = await getCredentials()
+const createTestPost = async (body, credentials=null) => {
+    if (!credentials) {
+        credentials = await getCredentials();
+    }
     const response = await supertest(app)
         .post('/api/questions/new')
         .send(body)
@@ -51,8 +54,10 @@ const createTestPost = async (body) => {
 }
 
 const getRandomBody = () => {
-    const body = randWords(15);
-    return body;
+    const questionBody = randWords(15).join(' ');
+    const title = randWords(4).join(' ');
+    const topic = randWords(2).join(' ');
+    return { questionBody, title, topic };
 }
 
 const createTestAnswer = async (body, questionID) => {
@@ -63,6 +68,12 @@ const createTestAnswer = async (body, questionID) => {
         .set('Cookie', credentials)
         .set('Accept', 'application/json')
     return response;
+}
+
+const generateTestPosts = async () => {
+    const credentials = await getCredentials();
+    const results = range(5).map(() => createTestPost(getRandomBody(), credentials));
+    return Promise.all(results);
 }
 
 describe('test all auth routes', () => {
@@ -351,7 +362,6 @@ describe('test all users routes', () => {
                 .send({bio: 'edited bio'})
                 .set('Cookie', credentials)
                 .set('Accept', 'application/json');
-            console.log(response.body);
             expect(response.body).toStrictEqual({error: 'you do not have permission to alter this information!'});
         });
     });
@@ -383,16 +393,20 @@ describe('test all users routes', () => {
         });
     });
 });
-//23 left
 describe('test all the questions routes', () => {
     describe('test the / questions route', () => {
-        range(25).forEach(async () => await createTestPost(getRandomBody()));
-        test('should retrieve the first 25 questions', async () => {
+        test('should retrieve the first page questions', async () => {
+            await generateTestPosts();
             const response = await supertest(app)
-                .put('/api/questions?')
+                .get('/api/questions')
+                .set('Accept', 'application/json');
+            expect(response.body).toHaveLength(6);
         }); //22 left
         test('should send a message if the page requested has no contents', async () => {
-
+            const response = await supertest(app)
+                .get('/api/questions?page=2')
+                .set('Accept', 'application/json');
+            expect(response.body).toStrictEqual({error: 'last page reached'})
         });
     });
     describe('test the questions/:id route (GET)', () => {

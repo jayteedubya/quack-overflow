@@ -126,8 +126,7 @@ class Queryer {
         const query = '\
         SELECT $1:name\
         FROM $2:name\
-        WHERE id BETWEEN $3 AND $4\
-        ORDER BY $5:name;';
+        WHERE id BETWEEN $3 AND $4;';
         return db.any(query, [column, this.table, beginId, (beginId + chunkSize), orderBy]);
 
     }

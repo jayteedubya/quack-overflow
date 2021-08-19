@@ -5,11 +5,15 @@ const { authorizeRequest, verifyPostPermissions, validateQuestionBody } = requir
 const { resolver } = require('../../utilities/utilities.js');
 
 questionsRouter.get('/', async (req, res, next) => {
-    let pageNumber = 1
+    var pageNumber = 0
     if (req.query.page) {
-        pageNumber = req.query.page;
+        pageNumber = req.query.page -1;
     }
-    const page = resolver(questions.getNextPageByTime(pageNumber))
+    [ page, error ] = await resolver(questions.getNextPageByTime(Number(pageNumber)))
+    if (error) {
+        next(error);
+        return;
+    }
     if (!page[0]) {
         res.status(404).json({error: 'last page reached'});
         return;
@@ -27,6 +31,7 @@ questionsRouter.post('/new', authorizeRequest, validateQuestionBody, async (req,
         return;
     }
     res.status(200).json({ id });
+    return;
 });
 
 questionsRouter.get('/question/:id', async (req, res, next) => {
