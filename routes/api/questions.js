@@ -35,9 +35,9 @@ questionsRouter.post('/new', authorizeRequest, validateQuestionBody, async (req,
 });
 
 questionsRouter.get('/question/:id', async (req, res, next) => {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     [ question, questionError ] = await resolver(questions.getQuestionById(id));
-    [ answers, answerError] = await resolver(answers.getAnswersForQuestion(id));
+    [ answerArray, answerError] = await resolver(answers.getAnswersForQuestion(id));
     [ result, viewError ] = await resolver(questions.incrementViews(id));
     if (questionError) {
         next(questionError);
@@ -51,13 +51,13 @@ questionsRouter.get('/question/:id', async (req, res, next) => {
         next(viewError);
         return;
     }
-    if (!question) {
+    if (!question[0]) {
         res.status(404).json({error: 'post could not be found!'});
         return;
     }
-    const fullQuestion = {}
+    const fullQuestion = {};
     fullQuestion.question = question[0];
-    fullQuestion.answers = answers;
+    fullQuestion.answers = answerArray;
     res.json(fullQuestion);
     return;
 });

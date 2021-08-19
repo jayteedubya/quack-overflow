@@ -401,7 +401,7 @@ describe('test all the questions routes', () => {
                 .get('/api/questions')
                 .set('Accept', 'application/json');
             expect(response.body).toHaveLength(6);
-        }); //22 left
+        });
         test('should send a message if the page requested has no contents', async () => {
             const response = await supertest(app)
                 .get('/api/questions?page=2')
@@ -411,10 +411,16 @@ describe('test all the questions routes', () => {
     });
     describe('test the questions/:id route (GET)', () => {
         test('should get the post object', async () => {
-
-        }); //21 left
+            const response = await supertest(app)
+                .get('/api/questions/question/1')
+                .set('Accept', 'application/json');
+            expect(response.body.question.id).toStrictEqual(1);
+        });
         test('should return an error if the requested post does not exist', async () => {
-
+            const response = await supertest(app)
+                .get('/api/questions/question/9080')
+                .set('Accept', 'application/json');
+            expect(response.body).toStrictEqual({error: 'post could not be found!'});
         }); //20 left
     });
     describe('test the questions/:id route (PUT)', () => {
