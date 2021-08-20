@@ -1,7 +1,7 @@
 const questionsRouter = require('express').Router();
 const questions = require('../../database/questions.js');
 const answers = require('../../database/answers.js');
-const { authorizeRequest, verifyPostPermissions, validateQuestionBody } = require('../../utilities/middleware');
+const { authorizeRequest, verifyPostPermissions, validateQuestionBody, validateQuestionEdit } = require('../../utilities/middleware');
 const { resolver } = require('../../utilities/utilities.js');
 
 questionsRouter.get('/', async (req, res, next) => {
@@ -40,15 +40,15 @@ questionsRouter.get('/question/:id', async (req, res, next) => {
     [ answerArray, answerError] = await resolver(answers.getAnswersForQuestion(id));
     [ result, viewError ] = await resolver(questions.incrementViews(id));
     if (questionError) {
-        next(questionError);
+        next({ questionError });
         return;
     }
     if (answerError) {
-        next(answerError);
+        next({ answerError });
         return;
     }
     if (viewError) {
-        next(viewError);
+        next({ viewError });
         return;
     }
     if (!question[0]) {
@@ -62,9 +62,9 @@ questionsRouter.get('/question/:id', async (req, res, next) => {
     return;
 });
 
-questionsRouter.put('/question/:id', verifyPostPermissions, validateQuestionBody, async (req, res, next) => {
+questionsRouter.put('/question/:id', authorizeRequest, verifyPostPermissions, validateQuestionEdit, async (req, res, next) => {
     const questionBody = req.body.questionBody;
-    const id = req.params.id
+    const id = req.params.id;
     [ data, error ] = await resolver(questions.editQuestion(questionBody, id));
     if (error) {
         next(error);
@@ -74,7 +74,7 @@ questionsRouter.put('/question/:id', verifyPostPermissions, validateQuestionBody
     return;
 });
 
-questionsRouter.delete('question/:id', verifyPostPermissions, async (req, res, next) => {
+questionsRouter.delete('/question/:id',authorizeRequest, verifyPostPermissions, async (req, res, next) => {
     const id = req.params.id
     [ data, error ] = await resolver(questions.deleteQuestion(questionBody, id));
     if (error) {

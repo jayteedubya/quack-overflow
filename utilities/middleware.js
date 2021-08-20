@@ -58,6 +58,7 @@ const extractUsernameFromToken = (token) => {
 const authorizeRequest = async (req, res, next) => {
     const submittedToken = getRequestToken(req);
     if (!submittedToken) {
+        
         res.status(401).json({error: 'please sign in to do this'});
         return;
     }
@@ -165,6 +166,16 @@ const validateQuestionBody = (req, res, next) => {
         return;
     }
     next()
+    return;
+}
+
+const validateQuestionEdit = (req, res, next) => {
+    const edit = req.body.questionBody;
+    if (!isLength(req.body.questionBody, {min: 1, max: 1000})) {
+        res.status(400).json({error: 'question body must be between 1 and 1000 characters long'});
+        return;
+    }
+    next();
     return;
 }
 
@@ -283,5 +294,6 @@ module.exports = {
     validateUsername, 
     validateNewProfileBody,
     validateQuestionBody,
-    validateAnswerBody
+    validateAnswerBody,
+    validateQuestionEdit
 }

@@ -421,22 +421,45 @@ describe('test all the questions routes', () => {
                 .get('/api/questions/question/9080')
                 .set('Accept', 'application/json');
             expect(response.body).toStrictEqual({error: 'post could not be found!'});
-        }); //20 left
+        });
     });
     describe('test the questions/:id route (PUT)', () => {
         test('should not edit the post if not logged in', async () => {
-
+            const response = await supertest(app)
+                .put('/api/questions/question/2')
+                .set('Accept', 'application/json')
+                .send({questionBody: 'ain\'t nice'});
+            expect(response.body).toStrictEqual({error: 'please sign in to do this'})
         }); //19 left
         test('should not edit the post if user is logged in but not the author', async () => {
-
+            const credentials = await getCredentials("thisMeetsCriteriaAlso", "Va1idP@ssword");
+            const response = await supertest(app)
+                .put('/api/questions/question/2')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials)
+                .send({questionBody: "something is wrong"});
+            expect(response.body).toStrictEqual({error: 'you do not have permission to modify this post!'})
         });
         test('should edit the post if the author is logged in and requesting it', async () => {
-
+            const credentials = await getCredentials();
+            const response = await supertest(app)
+                .put('/api/questions/question/2')
+                .set('Accept', 'json/application')
+                .set('Cookie', credentials)
+                .send({questionBody: "it works"});
+            expect(response.body).toStrictEqual({message: 'successful edit!'});
+            const question = await supertest(app)
+                .get('/api/questions/question/2')
+                .set('Accept', 'application/json')
+            expect(question.body.question.body).toStrictEqual('it works')
         })
     })
     describe('test the questions/:id route (DELETE)', () => {
         test('should not delete if user is not logged in', async () => {
-
+            const response = await supertest(app)
+                .delete('/api/questions/question/2')
+                .set('Accept', 'application/json');
+            expect(response.body).toStrictEqual({error: 'please sign in to do this'});
         });
         test('should not delete if user is logged in but not author', async () => {
 

@@ -12,11 +12,12 @@ apiRouter.use('/answers', answers);
 
 apiRouter.use((err, req, res, next) => {
     if (err) {
-        console.log(err);
-        res.status(500).json({ err });
+        const error = {error: err, url: req.url, method: req.method}
+        console.log(error)
+        res.status(500).json(error);
         return;
     }
-    next()
+    next();
     return;
 })
 
