@@ -58,7 +58,6 @@ const extractUsernameFromToken = (token) => {
 const authorizeRequest = async (req, res, next) => {
     const submittedToken = getRequestToken(req);
     if (!submittedToken) {
-        
         res.status(401).json({error: 'please sign in to do this'});
         return;
     }

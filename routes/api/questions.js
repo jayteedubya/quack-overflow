@@ -74,10 +74,10 @@ questionsRouter.put('/question/:id', authorizeRequest, verifyPostPermissions, va
     return;
 });
 
-questionsRouter.delete('/question/:id',authorizeRequest, verifyPostPermissions, async (req, res, next) => {
-    const id = req.params.id
-    [ data, error ] = await resolver(questions.deleteQuestion(questionBody, id));
+questionsRouter.delete('/question/:id', authorizeRequest, verifyPostPermissions, async (req, res, next) => {
+    [ data, error ] = await resolver(questions.deleteQuestion(req.params.id));
     if (error) {
+        console.log(error);
         next(error);
         return;
     }

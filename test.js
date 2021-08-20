@@ -462,10 +462,20 @@ describe('test all the questions routes', () => {
             expect(response.body).toStrictEqual({error: 'please sign in to do this'});
         });
         test('should not delete if user is logged in but not author', async () => {
-
+            const credentials = await getCredentials("thisMeetsCriteriaAlso", "Va1idP@ssword");
+            const response = await supertest(app)
+                .delete('/api/questions/question/2')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials);
+            expect(response.body).toStrictEqual({error: 'you do not have permission to modify this post!'});
         });
         test('should delete post if author is logged in and requesting it', async () => {
-
+            const credentials = await getCredentials();
+            const response = await supertest(app)
+                .delete('/api/questions/question/2')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials);
+            expect(response.body).toStrictEqual({message: "post deleted!"});
         });
     });
     describe('test the /question/new route (POST)', () => {
