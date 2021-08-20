@@ -497,10 +497,20 @@ describe('test all the questions routes', () => {
 describe('test all the answers routes', () => {
     describe('test the /questionId route (POST)', () => {
         test('should not post answer when user is not logged in', async () => {
-
+            const answer = getRandomBody().questionBody;
+            const response = await supertest(app)
+                .post('/answers/2')
+                .set('Accept', 'application/json')
+                .send(answer);
+            expect(response.body).toStrictEqual({error: 'please sign in to do this'});
         });
         test('should not post answer if question does not exist', async () => {
-
+            const answer = getRandomBody().questionBody;
+            const response = await supertest(app)
+                .post('/answers/12901')
+                .set('Accept', 'application/json')
+                .send(answer);
+            expect(response.body).toStrictEqual({error: });
         });
         test('should post answer if user logged in and question exists', async () => {
 
