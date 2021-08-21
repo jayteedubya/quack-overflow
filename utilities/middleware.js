@@ -178,20 +178,10 @@ const validateQuestionEdit = (req, res, next) => {
     return;
 }
 
-const validateAnswer = async (req, res, next) => {
-    const questionId = req.params.id
+const validateAnswerBody = async (req, res, next) => {
     const answerBody = req.body.answerBody;
     if (!isLength(answerBody, {max: 600})) {
         res.status(400).json({error: 'answer body is too long'});
-        return;
-    }
-    [ data, error ] = await resolver(questions.getQuestionById(questionId));
-    if (!data[0]) {
-        res.status(404).json({error: 'question attempted to answer does not exist'});
-        return;
-    }
-    if (error) {
-        next(error);
         return;
     }
     next();
@@ -303,6 +293,6 @@ module.exports = {
     validateUsername, 
     validateNewProfileBody,
     validateQuestionBody,
-    validateAnswer,
+    validateAnswerBody,
     validateQuestionEdit
 }

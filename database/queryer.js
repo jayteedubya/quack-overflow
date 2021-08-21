@@ -32,8 +32,8 @@ class Queryer {
     appendToArray(value, column, rowIdentifier, idValue) {
         const query = '\
         UPDATE $1:name\
-        SET $2:name = $2:name || $3:value\
-        WHERE $4:name = $5:value;';
+        SET $2:name = array_append($2:name, $3:value)\
+        WHERE $4:name = $5;';
         return db.none(query, [this.table, column, value, rowIdentifier, idValue]);
     }
     /**

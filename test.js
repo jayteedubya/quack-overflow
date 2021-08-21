@@ -5,8 +5,9 @@ const questions = require('./database/questions.js');
 const randWords = require('random-words');
 const answers = require('./database/answers.js');
 const { range } = require('./utilities/utilities.js');
+const { JsonWebTokenError } = require('jsonwebtoken');
 
-
+jest.setTimeout(10000);
 beforeAll(async () => await users.destroy());
 beforeAll(async () => await questions.destroy());
 beforeAll(async () => await answers.destroy());
@@ -484,11 +485,12 @@ describe('test all the questions routes', () => {
             const response = await supertest(app)
                 .post('/api/questions/new')
                 .set('Accept', 'application/json')
-                .send(post);
+                .send(post)
+                .catch(err => console.log(err));
             expect(response.body).toStrictEqual({error: 'please sign in to do this'});
         });
         test('should post if user is logged in', async () => {
-            console.log('this is already well tested, so pass')
+            //this is already well tested, so pass'
             expect(true).toBe(true);
         }); 
     });
@@ -499,52 +501,88 @@ describe('test all the answers routes', () => {
         test('should not post answer when user is not logged in', async () => {
             const answer = getRandomBody().questionBody;
             const response = await supertest(app)
-                .post('/answers/2')
+                .post('/api/answers/1')
                 .set('Accept', 'application/json')
                 .send(answer);
             expect(response.body).toStrictEqual({error: 'please sign in to do this'});
         });
         test('should not post answer if question does not exist', async () => {
-            const answer = getRandomBody().questionBody;
+            //this fails and I have not Idea why, it works fine in postman
+            const answerBody = "sample text";
+            const credentials = await getCredentials();
             const response = await supertest(app)
-                .post('/answers/12901')
+                .post('/api/answers/2')
                 .set('Accept', 'application/json')
-                .send(answer);
-            expect(response.body).toStrictEqual({error: });
+                .set('Cookie', credentials)
+                .send({ answerBody });
+            expect(response.body).toStrictEqual({error: 'question attempted to answer does not exist'});
         });
         test('should post answer if user logged in and question exists', async () => {
-
+            const answer = getRandomBody().questionBody;
+            const credentials = await getCredentials();
+            const response = await supertest(app)
+                .post('/api/answers/1')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials)
+                .send({answerBody: answer});
+            expect(response.body).toStrictEqual({message: 'answer submitted'});
         });
     });
     describe('test the /answer/answerId route (PUT)', () => {
-        test('should not edit answer if user not logged in', async () => {
-
-        });
         test('should not edit answer if user logged in but not the author', async () => {
-
+            const credentials = await getCredentials("thisMeetsCriteriaAlso", "Va1idP@ssword");
+            const response = await supertest(app)
+                .put('/api/answers/answer/1')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials)
+                .send({answerBody: 'should not work'});
+            expect(response.body).toStrictEqual({error: 'you do not have permission to modify this post'});
         });
         test('should edit the answer if the user is logged in and the author', async () => {
-
+            const credentials = await getCredentials();
+            const response = await supertest(app)
+                .put('/api/answers/answer/1')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials)
+                .send({answerBody: 'should work'});
+            expect(response.body).toStrictEqual({message: 'successful edit!'});
         });
     });
     describe('test the /answer/answerId route (DELETE)', () => {
-        test('should not delete answer if user not logged in', async () => {
-
-        });
         test('should not delete answer if user logged in but not the author', async () => {
-
+            const credentials = await getCredentials("thisMeetsCriteriaAlso", "Va1idP@ssword");
+            const response = await supertest(app)
+                .delete('/api/answers/answer/1')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials)
+            expect(response.body).toStrictEqual({error: 'you do not have permission to modify this post'});
         });
         test('should delete the answer if the user is logged in and the author', async () => {
-
+            const credentials = await getCredentials();
+            const response = await supertest(app)
+                .delete('/api/answers/answer/1')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials)
+            expect(response.body).toStrictEqual({message: 'answer deleted'});
         });
     });
     describe('test the /answer/answerId/POB route (PUT)', () => {
-        test('should not ePOB answer if user not logged in', async () => {
-
-        });
         test('should POB the answer if the user is logged in', async () => {
-
+            const credentials = await getCredentials();
+            const response = await supertest(app)
+                .put('/api/answers/answer/1/POB')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials)
+            expect(response.body).toStrictEqual({message: 'post successfully POB\'d'});
         });
+        test('should not POB the same answer more than once', async () => {
+            const credentials = await getCredentials();
+            const response = await supertest(app)
+                .put('/api/answers/answer/1/POB')
+                .set('Accept', 'application/json')
+                .set('Cookie', credentials)
+            expect(response.body).toStrictEqual({error: 'user has already patted post in the back!'});
+        })
     });
 });
 
