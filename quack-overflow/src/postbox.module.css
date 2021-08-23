@@ -1,0 +1,11 @@
+.postbox p, .postbox h3{
+    margin-top: 0px;
+    margin-bottom: 1px;
+    margin-left: 5px;
+}
+.postbox div {
+    border: 2px black;
+    border-style: dashed;
+    margin: 10px;
+}
+

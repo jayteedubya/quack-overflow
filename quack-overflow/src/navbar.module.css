@@ -1,0 +1,10 @@
+.navbar li {
+    display: inline-flex;
+    padding-left: 13%;
+    padding-right: 13%;
+  }
+.navbar div {
+    border: 1px black;
+    border-style: double;
+    margin: 5px;
+  }
