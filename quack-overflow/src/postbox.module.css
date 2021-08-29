@@ -3,9 +3,13 @@
     margin-bottom: 1px;
     margin-left: 5px;
 }
-.postbox div {
-    border: 2px black;
-    border-style: dashed;
-    margin: 10px;
+.postbox {
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+    margin-left: 170px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(150, 150, 150);
 }
 

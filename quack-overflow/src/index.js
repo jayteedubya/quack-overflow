@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Postbox from './postbox';
+import PostContainer from './postContainer';
 import Navbar from './navbar';
+import Sidebar from './sidebar'
 
-ReactDOM.render(<Navbar inUpOrOut="up" username="ducksicker"></Navbar>, document.getElementById('navbar'));
-ReactDOM.render(
-  <Postbox url="/none" title="This is a mock up" author="me" timestamp="today" views="25"></Postbox>,
+ReactDOM.render(<Navbar upOrOut="out" username="ducksicker"></Navbar>, document.getElementById('navbar'));
+ReactDOM.render(<PostContainer></PostContainer>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+ReactDOM.render(<Sidebar></Sidebar>, document.getElementById('sidebar'));
