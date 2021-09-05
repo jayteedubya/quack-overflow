@@ -1,0 +1,25 @@
+.answerbox textarea {
+    resize: none;
+    border: none;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0;
+    background-color: rgb(150, 150, 150);
+}
+
+.answerbox p {
+    margin: 0;
+    font-size: smaller;
+}
+
+.answerbox button {
+    margin-top: 5px;
+}
+
+.answerbox {
+    border: 1px solid black;
+    float: right;
+    margin: 10px;
+    width: 95%;
+    background-color: rgb(150, 150, 150);
+}

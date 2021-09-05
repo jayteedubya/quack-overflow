@@ -1,0 +1,10 @@
+.userpublic {
+    margin-left: 170px;
+    margin-right: 10px;
+}
+
+.userpublic textarea {
+    border: 1px black solid;
+    width: 100%;
+    resize: none;
+}

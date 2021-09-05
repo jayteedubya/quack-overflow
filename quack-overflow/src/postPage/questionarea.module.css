@@ -1,0 +1,26 @@
+.questionarea {
+    border: 1px black solid;
+    background-color: rgb(150, 150, 150);
+    width: auto;
+    box-sizing: border-box;
+    margin-left: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.questionarea textarea {
+    background-color: rgb(150, 150, 150);
+    width: 100%;
+    box-sizing: border-box;
+    border: dashed 1px black;
+    resize: none;
+    min-height: 4cm;
+}
+
+.questionarea p {
+    margin: 0;
+}
+
+.questionarea h1 {
+    margin: 0;
+}
