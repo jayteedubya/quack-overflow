@@ -4,28 +4,27 @@ import Postbox from './postbox';
 class PostContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.posts = [
-            {
-                id: 1,
-                title: 'test',
-                time: 'now',
-                topic: 'stuff',
-                views: 10,
-                username: "me"
-            },
-            {
-                id: 2,
-                title: 'another',
-                time: 'now',
-                topic: 'more stuff',
-                views: 10,
-                username: "me"
-            }
-        ]
+        this.state = {
+            error: null,
+            isLoaded: false,
+            questions: [],
+            currentPage: 1
+        }
+    }
+    componentDidMount() {
+        fetch(`http://localhost:4001/api/questions/?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+            .then(response => response.json())
+            .then(result => {
+                this.setState({isLoaded: true, questions: result});
+            }, 
+            error => {
+                console.log(error);
+                this.setState({isLoaded: true, error});
+            })
     }
     render() {
-        const Items = this.posts.map(post => 
-                <Postbox url={`/question/${post.id}`} author={post.username} timestamp={post.time} views={post.views} title={post.title}>
+        const Items = this.state.questions.map(post => 
+                <Postbox url={`/questions/${post.id}`} author={post.author} timestamp={new Date(post.time).toLocaleString()} views={post.views} title={post.title}>
                 </Postbox>
             );
         return <div>

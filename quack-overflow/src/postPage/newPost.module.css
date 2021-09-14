@@ -1,0 +1,33 @@
+.newpost {
+    margin-left: 170px;
+    border: 1px solid black;
+    background-color: rgb(150, 150, 150);
+    margin-right: 10px;
+    text-align: left;
+    padding: 10px;
+}
+
+.newpost textarea {
+    box-sizing: border-box;
+    border: 1px black solid;
+    width: 100%;
+    height: 20em;
+    resize: none;
+}
+
+.newpost .textcontainer {
+    padding: 10px;
+}
+
+.newpost button {
+    margin-top: 10px;
+}
+
+.newpost label {
+    margin: 10px;
+}
+
+.newpost input {
+    margin: 10px;
+    border: 1px solid black;
+}

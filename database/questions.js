@@ -10,7 +10,7 @@ class Questions extends Queryer {
      * @returns an array of question objects
      */
     getNextPageByTime(page) {
-        return this.chunkedQuery(['id', 'title', 'time', 'topic', 'views', 'username'], page * 25, 25);
+        return this.chunkedQuery(['id', 'title', 'time', 'topic', 'views', 'author'], page * 25, 25);
     }
     /**
      * adds a new question ot the database

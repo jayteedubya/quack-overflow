@@ -14,11 +14,12 @@ class QuestionArea extends React.Component {
         })
     }
     render() {
+        console.log(this.props.question.body)
         const element = <div className={style.questionarea}>
-            <h1>{this.props.title}</h1>
-            <textarea readOnly={this.state.readOnly}>{this.props.body}</textarea>
+            <h1>{this.props.question.title}</h1>
+            <textarea readOnly={this.state.readOnly} defaultValue={this.props.question.body}></textarea>
             <br/>
-            <p><strong>author: </strong><a href="/profile">{this.props.author}</a> <strong>timestamp: </strong> {this.props.timestamp}</p>
+            <p><strong>author: </strong>{this.props.question.author}<a href="/profile">{this.props.author}</a> <strong>timestamp: </strong> {new Date(this.props.question.time).toLocaleString()}</p>
             <button onClick={this.toggleEdit}>{this.state.buttonText}</button><button>delete</button>
         </div>
         return element;

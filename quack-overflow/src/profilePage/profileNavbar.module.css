@@ -1,8 +1,10 @@
 .profilenavbar {
     background-color: rgb(0, 132, 255);
     border: 1px black solid;
+    margin-left: 170px;
     margin-top: 5px;
     margin-right: 10px;
+    margin-bottom: 5px;
 }
 .profilenavbar li {
     list-style: none;

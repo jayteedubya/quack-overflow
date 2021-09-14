@@ -36,7 +36,6 @@ $ /:username/title
 
 - /sign-in
     POST - compares the username and password provided in the request body with that stored in the database, and assigns a json web token if they match
-    GET - returns a true or false, indicating whether the user is signed in (true) or not (false)
 
 - /sign-up
     POST - adds a new user to the database using the data provided in the request body. expects properties username, password, bio, and title

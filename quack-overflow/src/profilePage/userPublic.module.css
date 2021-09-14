@@ -1,10 +1,26 @@
 .userpublic {
     margin-left: 170px;
     margin-right: 10px;
+    background-color: rgb(150, 150, 150);
+    border: 1px black solid;
 }
 
 .userpublic textarea {
+    box-sizing: border-box;
     border: 1px black solid;
     width: 100%;
     resize: none;
+    background-color: rgb(150, 150, 150);
+}
+
+.userpublic .title textarea {
+    height: 1.5em;
+}
+
+.userpublic .bio textarea {
+    height: 10em;
+}
+
+.userpublic .title {
+    margin-bottom: 10px;
 }

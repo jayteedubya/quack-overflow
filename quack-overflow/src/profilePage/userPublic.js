@@ -23,15 +23,17 @@ class UserPublic extends React.Component {
         })
     }
     render() {
-        const element = <div className={style.userpublic}>
+        const element = <div>
             <ProfileNavbar/>
-            <div>
-                <textarea id ="title" readOnly={this.state.titleReadOnly}>{`${this.props.username},  ${this.props.title}`}</textarea>
-                <button onClick={this.toggleEditTitle}>{this.state.titleButtonText}</button>
-            </div>
-            <div>
-                <textarea id="bio" readOnly={this.state.bioReadOnly}>{this.props.bio}</textarea>
-                <button onClick={this.toggleEditBio}>{this.state.bioButtonText}</button>
+            <div className={style.userpublic}>
+                <div className={style.title}>
+                    <textarea readOnly={this.state.titleReadOnly}>{`${this.props.username},  ${this.props.title}`}</textarea>
+                    <button onClick={this.toggleEditTitle}>{this.state.titleButtonText}</button>
+                </div>
+                <div className={style.bio}>
+                    <textarea readOnly={this.state.bioReadOnly}>{this.props.bio}</textarea>
+                    <button onClick={this.toggleEditBio}>{this.state.bioButtonText}</button>
+                </div>
             </div>
         </div>
         return element;
