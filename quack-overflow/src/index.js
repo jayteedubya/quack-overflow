@@ -5,4 +5,5 @@ import Navbar from "./navigation/navbar";
 import Sidebar from "./navigation/sidebar";
 import App from "./app.js";
 
-ReactDOM.render(<Router><Navbar/><Sidebar/><App/></Router>, document.getElementById('root'));
+
+ReactDOM.render(<Router><App/></Router>, document.getElementById('root'));

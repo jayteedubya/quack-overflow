@@ -116,19 +116,31 @@ class Queryer {
         return db.any(query, [column, this.table, orderAttribute, limit])
     }
     /**
-     * returns an array of posts the size specified, starting at the id specified
+     * returns an array of posts the size specified, starting at the id specified, order by what is specified
      * @param {string} column 
      * @param {number} beginId 
      * @param {number} chunkSize 
+     * @param {string} orderBy
      * @returns a slice of the table starting at {beginId} with a length of {chunkSize}
      */
     chunkedQuery(column, beginId, chunkSize, orderBy) {
         const query = '\
         SELECT $1:name\
         FROM $2:name\
-        WHERE id BETWEEN $3 AND $4;';
+        ORDER BY $5:value\
+        LIMIT $3:value\
+        OFFSET $4:value;'
         return db.any(query, [column, this.table, beginId, (beginId + chunkSize), orderBy]);
-
+    }
+    chunkedQueryWhere(column, beginId, chunkSize, orderBy, columnWhere, value) {
+        const query = '\
+        SELECT $1:name\
+        FROM $2:name\
+        WHERE $6:name = $7:value\
+        ORDER BY $5:value\
+        LIMIT $3:value\
+        OFFSET $4:value;'
+        return db.any(query, [column, this.table, beginId, (beginId + chunkSize), orderBy, columnWhere, value]);
     }
     /**
      * increments the value in a row for the specified column by the specified amount

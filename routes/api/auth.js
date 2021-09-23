@@ -65,6 +65,16 @@ authRouter.get('/refresh-token', authorizeRequest, async (req, res, next) => {
     
 });
 
+authRouter.get('/who-am-i', authorizeRequest, (req, res, next) => {
+    const username = req.credentials.username;
+    if (username) {
+        res.json({ username });
+        return;
+    }
+    res.json({username: null});
+    return;
+})
+
 authRouter.post('/sign-out', authorizeRequest, async (req, res, next) => {
     const username = req.credentials.username;
     [ data, error ] = await resolver(users.updateUserToken(username, null));

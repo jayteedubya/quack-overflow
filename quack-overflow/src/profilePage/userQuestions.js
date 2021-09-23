@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Postbox from '../frontPage/postbox';
 import ProfileNavbar from './profileNavbar';
@@ -5,30 +6,22 @@ import ProfileNavbar from './profileNavbar';
 class UserQuestions extends React.Component {
     constructor(props) {
         super(props);
-        this.posts = [
-            {
-                id: 1,
-                title: 'test',
-                time: 'now',
-                topic: 'stuff',
-                views: 10,
-                username: "me"
-            },
-            {
-                id: 2,
-                title: 'another',
-                time: 'now',
-                topic: 'more stuff',
-                views: 10,
-                username: "me"
-            }
-        ]
+        this.state = {
+            questions: [],
+            error: null,
+            isLoaded: false
+        }
+    }
+    componentDidMount() {
+        fetch(`http://localhost:4001/api/users/${this.props.username}/questions`, {method: 'GET', headers: {'content-type': 'application/json'}})
+            .then(response => response.json())
+            .then(response => this.setState({questions: response, isLoaded: true}), error => this.setState({error, isLoaded: true}));
     }
     render() {
     const element = <div>
-        <ProfileNavbar/>
+        <ProfileNavbar username={this.props.username}/>
             <div>
-                {this.posts.map(post => <Postbox url={`/question/${post.id}`} author={post.username} timestamp={post.time} views={post.views} title={post.title}></Postbox>)}
+                {this.state.questions.map(post => <Postbox url={`/questions/${post.id}`} author={post.username} timestamp={post.time} views={post.views} title={post.title}></Postbox>)}
             </div>
         </div>
     return element;

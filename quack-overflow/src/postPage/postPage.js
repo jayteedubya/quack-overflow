@@ -14,6 +14,7 @@ class PostPage extends React.Component {
         }
     }
     componentDidMount() {
+        console.log(this.props.id)
         fetch(`http://localhost:4001/api/questions/question/${this.props.id}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {

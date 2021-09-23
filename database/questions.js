@@ -10,7 +10,7 @@ class Questions extends Queryer {
      * @returns an array of question objects
      */
     getNextPageByTime(page) {
-        return this.chunkedQuery(['id', 'title', 'time', 'topic', 'views', 'author'], page * 25, 25);
+        return this.chunkedQuery(['id', 'title', 'time', 'topic', 'views', 'author'], page * 25, 25, 'time');
     }
     /**
      * adds a new question ot the database
@@ -52,8 +52,8 @@ class Questions extends Queryer {
      * @param {string} topic 
      * @returns an array of question objects
      */
-    getAllQuestionsInTopic(topic) {
-        return this.getColumnFromAttribute('*', 'topic', topic);
+    getQuestionsInTopicByPage(topic, page) {
+        return this.chunkedGetAllWhereColumnEquals(['id', 'title', 'time', 'topic', 'views', 'author'], page * 25, 25, 'time', 'topic', topic);
     }
     /**
      * gets a specific question from the db
@@ -82,6 +82,8 @@ class Questions extends Queryer {
 }
 
 const questions = new Questions();
+
+questions.getNextPageByTime(1).then(res => console.log(res));
 
 module.exports = questions;
 

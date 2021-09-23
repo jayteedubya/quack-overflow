@@ -5,7 +5,29 @@ import style from './userPublic.module.css';
 class UserPublic extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {titleReadOnly: true, bioReadOnly: true, bioButtonText: 'edit', titleButtonText: 'edit'}
+        this.state = {
+            titleReadOnly: true,
+            bioReadOnly: true,
+            bioButtonText: 'edit', 
+            titleButtonText: 'edit', 
+            title: null, 
+            bio: null, 
+            isLoaded: false
+        }
+    }
+    componentDidMount() {
+        console.log(this.props.username)
+        fetch(`http://localhost:4001/api/users/${this.props.username}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                const { bio, title } = result
+                this.setState({isLoaded: true, bio, title: `${this.props.username},  ${title}`});
+            }, 
+            error => {
+                console.log(error);
+                this.setState({isLoaded: true, error});
+            })
     }
     toggleEditTitle = () => {
         this.setState(state => {
@@ -24,14 +46,14 @@ class UserPublic extends React.Component {
     }
     render() {
         const element = <div>
-            <ProfileNavbar/>
+            <ProfileNavbar username={this.props.username}/>
             <div className={style.userpublic}>
                 <div className={style.title}>
-                    <textarea readOnly={this.state.titleReadOnly}>{`${this.props.username},  ${this.props.title}`}</textarea>
+                    <textarea readOnly={this.state.titleReadOnly} defaultValue={this.state.title}></textarea>
                     <button onClick={this.toggleEditTitle}>{this.state.titleButtonText}</button>
                 </div>
                 <div className={style.bio}>
-                    <textarea readOnly={this.state.bioReadOnly}>{this.props.bio}</textarea>
+                    <textarea readOnly={this.state.bioReadOnly} defaultValue={this.state.bio}></textarea>
                     <button onClick={this.toggleEditBio}>{this.state.bioButtonText}</button>
                 </div>
             </div>

@@ -18,9 +18,22 @@ import SignIn from './authentication/signIn'
 import Navbar from './navigation/navbar';
 import Sidebar from './navigation/sidebar';
 import NewPost from './postPage/newPost';
+import UserRouter from './routing/userRouter';
 
-export default function App() {
-  return (
+export default class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {username: null, userLoggedIn: false}
+    this.updateText1 = this.updateText1
+  }
+  updateUsername = state => {
+    this.setState(state);
+  }
+  render() {
+    return (
+    <div>
+      <Navbar username={this.state.username}/>
+      <Sidebar/>
       <Switch>
         <Route exact path="/">
           <PostContainer view="home"/>
@@ -32,16 +45,13 @@ export default function App() {
           <PostContainer view="mostAnswered"/>
         </Route>
         <Route path="/sign-in">
-          <SignIn/>
+          <SignIn updateUsername={this.updateUsername}/>
         </Route>
         <Route path="/user">
           <UserPublic/>
         </Route>
         <Route path="/sign-up">
           <SignUp/>
-        </Route>
-        <Route path="/me">
-          <UserPublic/>
         </Route>
         <Route path="/popular">
           <PostContainer view="popular"/>
@@ -52,6 +62,11 @@ export default function App() {
         <Route path="/questions">
           <QuestionRouter/>
         </Route>
+        <Route path="/users">
+          <UserRouter/>
+        </Route> 
       </Switch>
+    </div>
   )
+  }
 }
