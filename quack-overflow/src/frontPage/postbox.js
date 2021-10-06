@@ -3,7 +3,6 @@ import styles from './postbox.module.css';
 
 class Postbox extends React.Component {
     render() {
-        console.log(this.props)
         const box = <div className={styles.postbox}>
             <div>
             <h3><a href={this.props.url}>{this.props.title}</a></h3>

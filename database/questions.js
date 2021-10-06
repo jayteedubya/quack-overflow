@@ -1,3 +1,4 @@
+const { db } = require('./connect');
 const Queryer = require('./queryer');
 
 class Questions extends Queryer {
@@ -53,7 +54,7 @@ class Questions extends Queryer {
      * @returns an array of question objects
      */
     getQuestionsInTopicByPage(topic, page) {
-        return this.chunkedGetAllWhereColumnEquals(['id', 'title', 'time', 'topic', 'views', 'author'], page * 25, 25, 'time', 'topic', topic);
+        return this.chunkedQueryWhere(['id', 'title', 'time', 'topic', 'views', 'author'], page * 25, 25, 'time', 'topic', topic);
     }
     /**
      * gets a specific question from the db
@@ -79,11 +80,12 @@ class Questions extends Queryer {
     getAuthorById(id) {
         return this.getColumnFromAttribute('author', 'id', id)
     }
+    getAllTopics() {
+        return db.many("SELECT COUNT(*), topic FROM questions GROUP BY 2 ORDER BY 1 DESC;");
+    }
 }
 
 const questions = new Questions();
-
-questions.getNextPageByTime(1).then(res => console.log(res));
 
 module.exports = questions;
 

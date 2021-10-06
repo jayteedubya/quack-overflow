@@ -1,19 +1,47 @@
 import React from 'react';
-import style from './newPost.module.css'
+import style from './newPost.module.css';
+import { Redirect } from 'react-router-dom';
+import validator from 'validator';
 
 class NewPost extends React.Component {
-    submit() {
+    constructor(props) {
+        super(props);
+        this.state = {postId: null, characterCountBody: 0, characterCountTitle: 0, characterCountTopic: 0};
+    }
+    redirect = (postId) => {
+        console.log('postId: ', postId)
+        this.setState({postId})
+    }
+    getAndValidateQuestion() {
         const title = document.getElementById('title').value;
+        if (title.length > 80) {
+            window.alert('title must be 80 characters or less');
+            return null
+        }
         const topic = document.getElementById('topic').value;
-        const questionBody = document.getElementById('body').value
-        const body = JSON.stringify({ title, topic, questionBody });
+        if (topic.length > 60) {
+            window.alert('topic must be 60 characters or less');
+            return null;
+        }
+        const questionBody = document.getElementById('body').value;
+        if (questionBody.length > 1000) {
+            window.alert('topic must be 1000 characters or less');
+            return null;
+        }
+        return { title, topic, questionBody };
+    }
+    submit = () => {
+        const questionBody = this.getAndValidateQuestion();
+        if (!questionBody) {
+            return
+        }
+        const body = JSON.stringify(questionBody);
         fetch('http://localhost:4001/api/questions/new', {method: 'POST', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
-            .then(res => {
-                console.log(res.headers)
-                return res
-            })
             .then(res => res.json())
-            .then(result => console.log(result))
+            .then(res => {
+                console.log(res.id.id);
+                this.redirect(res.id.id);
+            })
             .catch(err => console.log(err)) //credentials: 'same-origin' maybe //HTTP BEFORE localhost //api route
     }
     render() {
@@ -32,6 +60,12 @@ class NewPost extends React.Component {
                 <button onClick={this.submit}> submit </button>
             </div>
         </div>
+        if (this.state.postId) {
+            return <Redirect to={`/questions/${this.state.postId}`}/>
+        }
+        if (!this.props.username) {
+            return <Redirect to='/sign-in'/>
+        }
         return element;
     }
 }

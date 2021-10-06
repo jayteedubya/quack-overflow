@@ -5,7 +5,7 @@ const buildUsersTable = () => {
     CREATE TABLE users(\
         id SERIAL PRIMARY key,\
         username VARCHAR(40) UNIQUE NOT NULL,\
-        password TEXT NOT NULL,\
+        password VARCHAR(40) NOT NULL,\
         bio VARCHAR(300) NOT NULL,\
         pobed_answers INTEGER[] NOT NULL DEFAULT \'{}\',\
         title VARCHAR(60),\
@@ -20,7 +20,7 @@ const buildQuestionsTable = () => {
     CREATE TABLE questions(\
         id SERIAL PRIMARY KEY,\
         title VARCHAR(80),\
-        author VARCHAR(40) NOT NULL REFERENCES users(username),\
+        author VARCHAR(40) NOT NULL REFERENCES users(username) ON DELETE CASCADE,\
         body VARCHAR(1000),\
         views INTEGER,\
         topic VARCHAR(60),\
@@ -33,10 +33,10 @@ const buildAnswersTable = () => {
     const query = '\
     CREATE TABLE answers(\
         id SERIAL PRIMARY KEY,\
-        author VARCHAR(40) NOT NULL REFERENCES users(username),\
+        author VARCHAR(40) NOT NULL REFERENCES users(username) ON DELETE CASCADE,\
         pob_count INTEGER DEFAULT 0,\
         body VARCHAR(600),\
-        question_id INT REFERENCES questions(id),\
+        question_id INT REFERENCES questions(id) ON DELETE CASCADE,\
         time TIMESTAMPTZ NOT NULL DEFAULT NOW()\
     );';
     return db.none(query);

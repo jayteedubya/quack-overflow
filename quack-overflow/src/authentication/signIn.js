@@ -22,24 +22,21 @@ class SignIn extends React.Component {
         fetch('http://localhost:4001/api/auth/sign-in', req)
             .then(res => res.json())
             .then(res => {
-                console.log(res);
                 if (res.message === 'log in success') {
                     this.setState({loggedIn: true});
-                    this.props.updateUsername(username);
-                    
+                    this.props.updateAppState({username});  
                 }
             });
         
     }
     render() { //DO NOT update state in render method. will call itself recursively
-        console.log(this.state);
         const element = <div className={style.signinbox}>
-            <div class={style.innerbox}>
+            <div className={style.innerbox}>
                 <h1> Sign In To Quack Overflow! </h1>
-                <label for="username"> username </label>
+                <label htmlFor="username"> username </label>
                 <input type="text" id="username" name="username"/>
                 <br/>
-                <label for="password"> password </label>
+                <label htmlFor="password"> password </label>
                 <input type="password" id="password" name="password"/>
                 <br/>
                 <button onClick={()=>this.signIn()}> Sign In </button>

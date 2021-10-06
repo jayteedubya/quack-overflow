@@ -1,24 +1,23 @@
 import React from 'react';
 import Postbox from './postbox';
 
-class PostContainer extends React.Component {
+class TopicPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             error: null,
             isLoaded: false,
             questions: [],
-            currentPage: 0,
+            currentPage: 0
         }
     }
     componentDidMount() {
-        fetch(`http://localhost:4001/api/questions?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`http://localhost:4001/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => {
                 return response;
             })
             .then(response => response.json())
             .then(result => {
-                console.log(result)
                 this.setState({isLoaded: true, questions: result});
             }, 
             error => {
@@ -28,8 +27,7 @@ class PostContainer extends React.Component {
     }
     nextPage = () => {
         this.setState({currentPage: this.state.currentPage + 1});
-        console.log(this.state.currentPage);
-        fetch(`http://localhost:4001/api/questions?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`http://localhost:4001/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
                 console.log(result)
@@ -44,7 +42,7 @@ class PostContainer extends React.Component {
     prevPage = () => {
         if (this.state.pageNumber - 1 >= 0) {
             this.setState({currentPage: this.state.currentPage - 1});
-            fetch(`http://localhost:4001/api/questions?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+            fetch(`http://localhost:4001/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
                 .then(response => response.json())
                 .then(result => {
                     console.log(result)
@@ -69,4 +67,4 @@ class PostContainer extends React.Component {
     }
 }
 
-export default PostContainer;
+export default TopicPage;

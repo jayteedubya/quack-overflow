@@ -16,13 +16,12 @@ class UserPublic extends React.Component {
         }
     }
     componentDidMount() {
-        console.log(this.props.username)
-        fetch(`http://localhost:4001/api/users/${this.props.username}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`http://localhost:4001/api/users/${this.props.match.params.username}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
                 console.log(result);
                 const { bio, title } = result
-                this.setState({isLoaded: true, bio, title: `${this.props.username},  ${title}`});
+                this.setState({isLoaded: true, bio, title});
             }, 
             error => {
                 console.log(error);
@@ -33,9 +32,23 @@ class UserPublic extends React.Component {
         this.setState(state => {
             state.titleReadOnly = !state.titleReadOnly;
             state.titleButtonText = state.titleReadOnly ? 'edit' : 'submit';
-            //when text readonly is true, submit changes
             return state;
         })
+    }
+    editTitle = () => {
+        if (!this.state.titleReadOnly) {
+            const title = document.getElementById('title').value;
+            const body = JSON.stringify({ title });
+            console.log(body);
+            fetch(`http://localhost:4001/api/users/${this.props.match.params.username}/title`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+                .then(res => res.json())
+                .then(res => console.log(res))
+                .catch(err => console.log(err));
+            this.toggleEditTitle(); 
+            return;
+        }
+        this.toggleEditTitle();
+        return;
     }
     toggleEditBio = () => {
         this.setState(state => {
@@ -44,17 +57,34 @@ class UserPublic extends React.Component {
             return state;
         })
     }
+    editBio = () => {
+        if (!this.state.bioReadOnly) {
+            const bio = document.getElementById('bio').value;
+            const body = JSON.stringify({ bio });
+            fetch(`http://localhost:4001/api/users/${this.props.match.params.username}/bio`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+                .then(res => res.json())
+                .then(res => console.log(res))
+                .catch(err => console.log(err));
+            this.toggleEditBio(); 
+            return;
+        }
+        this.toggleEditBio();
+        return;
+    }
     render() {
+        console.log('user props  ' ,this.props)
         const element = <div>
-            <ProfileNavbar username={this.props.username}/>
+            <ProfileNavbar username={this.props.match.params.username}/>
             <div className={style.userpublic}>
                 <div className={style.title}>
-                    <textarea readOnly={this.state.titleReadOnly} defaultValue={this.state.title}></textarea>
-                    <button onClick={this.toggleEditTitle}>{this.state.titleButtonText}</button>
+                    <h3 style={{margin: 0}}> title </h3>
+                    <textarea id="title" readOnly={this.state.titleReadOnly} defaultValue={this.state.title}></textarea>
+                    {this.props.userViewing === this.props.match.params.username && <button onClick={this.editTitle}>{this.state.titleButtonText}</button>}
                 </div>
                 <div className={style.bio}>
-                    <textarea readOnly={this.state.bioReadOnly} defaultValue={this.state.bio}></textarea>
-                    <button onClick={this.toggleEditBio}>{this.state.bioButtonText}</button>
+                    <h3 style={{margin: 0}}> bio </h3>
+                    <textarea id="bio" readOnly={this.state.bioReadOnly} defaultValue={this.state.bio}></textarea>
+                    {this.props.userViewing === this.props.match.params.username && <button onClick={this.editBio}>{this.state.bioButtonText}</button>}
                 </div>
             </div>
         </div>

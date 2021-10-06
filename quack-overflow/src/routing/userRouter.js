@@ -9,12 +9,12 @@ import {
   } from "react-router-dom";
   
 
-  const UserRouter = () => {
+  const UserRouter = ({ userViewing }) => {
     let match = useRouteMatch();
     const element = <Switch>
-        <Route path={`${match.path}/:username`} exact render={props => <UserPublic username={props.match.params.username}/>}/>
-        <Route path={`${match.path}/:username/questions/`} render={props => <UserQuestions username={props.match.params.username}/>}/>
-        <Route path={`${match.path}/:username/answers/`} render={props => <UserAnswers username={props.match.params.username}/>}/>
+        <Route path={`${match.path}/:username`} exact render={props => <UserPublic {...props} userViewing={userViewing}/>}/>
+        <Route path={`${match.path}/:username/questions/`} render={props => <UserQuestions userViewing={userViewing} username={props.match.params.username}/>}/>
+        <Route path={`${match.path}/:username/answers/`} render={props => <UserAnswers userViewing={userViewing} username={props.match.params.username}/>}/>
     </Switch>
     return element
   }

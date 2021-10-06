@@ -1,20 +1,19 @@
-import React from 'react';
+
 import PostPage from'../postPage/postPage';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useRouteMatch
-  } from "react-router-dom";
-  
-
-  const QuestionRouter = () => {
-    let match = useRouteMatch();
-    const element = <Switch>
-        <Route path={`${match.path}/:questionId`} render={(props) => <PostPage id={props.match.params.questionId}/>}/>
-    </Switch>
-    return element
+import React from "react";
+import PropTypes from "prop-types";
+import { withRouter, Route } from "react-router";
+ 
+class QuestionRouter extends React.Component {
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  };
+  render() {
+    const { location } = this.props;
+    return <Route><PostPage id={location.pathname.split('/').pop()} username={this.props.username} userLoggedIn={this.props.userLoggedIn}/></Route>
   }
+}
 
-  export default QuestionRouter;
+export default withRouter(QuestionRouter);

@@ -11,12 +11,6 @@ class Navbar extends React.Component {
             isLoaded: false,
         }
     }
-    componentDidUpdate() {
-        fetch('http://localhost:4001/api/auth/who-am-i', {method: 'GET', credentials: 'include', mode: 'cors'})
-            .then(res => res.json)
-            .then(res => this.setState({username: res.username}))
-            .catch(err => console.log(err))
-    }
     render() {
         const navbar = <div className={styles.navbar}>
             <div>
@@ -24,10 +18,11 @@ class Navbar extends React.Component {
                     <ul>
                         <li><Link to="/"> Questions By Date </Link></li>
                         <li><Link to="/top"> Questions By Views </Link></li>
-                        <li><Link to="/sign-in"> Sign In </Link></li>
-                        <li><Link to="/sign-up"> Sign Up </Link></li>
-                        <li><Link to={`/users/${this.props.username}`}> {this.props.username} </Link></li>
-                        <li><Link to="/submit"> Submit a Post </Link></li>
+                        <li><Link to="/submit"> Ask A Question </Link></li>
+                        {!this.props.username && <li><Link to="/sign-in"> Sign In </Link></li>}
+                        {!this.props.username && <li><Link to="/sign-up"> Sign Up </Link></li>}
+                        {!!this.props.username && <li><Link to="/sign-out"> Sign Out</Link></li>}
+                        {!!this.props.username && <li><Link to={`/users/${this.props.username}`}> {this.props.username} </Link></li>}
                     </ul>
             </div>
         </div>

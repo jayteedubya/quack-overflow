@@ -19,15 +19,25 @@ import Navbar from './navigation/navbar';
 import Sidebar from './navigation/sidebar';
 import NewPost from './postPage/newPost';
 import UserRouter from './routing/userRouter';
+import TopicPage from './frontPage/topicPage';
+import TopicRouter from './routing/topicsRouter';
+import SignOut from './authentication/signOut';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {username: null, userLoggedIn: false}
-    this.updateText1 = this.updateText1
+    this.state = {username: null}
   }
-  updateUsername = state => {
+  updateAppState = state => {
     this.setState(state);
+  }
+  componentDidMount() {
+    fetch('http://localhost:4001/api/auth/who-am-i', {method: 'GET', credentials: 'include', mode: 'cors'})
+        .then(res => res.json())
+        .then(res => {
+          this.setState({username: res.username})
+        })
+        .catch(err => console.log(err))
   }
   render() {
     return (
@@ -45,26 +55,32 @@ export default class App extends React.Component {
           <PostContainer view="mostAnswered"/>
         </Route>
         <Route path="/sign-in">
-          <SignIn updateUsername={this.updateUsername}/>
+          <SignIn updateAppState={this.updateAppState}/>
         </Route>
         <Route path="/user">
           <UserPublic/>
         </Route>
         <Route path="/sign-up">
-          <SignUp/>
+          <SignUp updateAppState={this.updateAppState}/>
         </Route>
         <Route path="/popular">
           <PostContainer view="popular"/>
         </Route>
         <Route path="/submit">
-          <NewPost/>
+          <NewPost username={this.state.username}/>
         </Route>
         <Route path="/questions">
-          <QuestionRouter/>
+          <QuestionRouter userLoggedIn={this.state.userLoggedIn} username={this.state.username} updateAppState={this.updateAppState}/>
         </Route>
         <Route path="/users">
-          <UserRouter/>
+          <UserRouter userViewing={this.state.username}/>
         </Route> 
+        <Route path="/topics">
+          <TopicRouter/>
+        </Route>
+        <Route path="/sign-out">
+          <SignOut updateAppState={this.updateAppState}/>
+        </Route>
       </Switch>
     </div>
   )

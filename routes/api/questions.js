@@ -5,10 +5,7 @@ const { authorizeRequest, verifyPostPermissions, validateQuestionBody, validateQ
 const { resolver } = require('../../utilities/utilities.js');
 
 questionsRouter.get('/', async (req, res, next) => {
-    var pageNumber = 0
-    if (req.query.page) {
-        pageNumber = req.query.page -1;
-    }
+    const pageNumber = req.query.page ? req.query.page : 0;
     [ page, error ] = await resolver(questions.getNextPageByTime(Number(pageNumber)))
     if (error) {
         next(error);
@@ -22,8 +19,36 @@ questionsRouter.get('/', async (req, res, next) => {
     return;
 });
 
+questionsRouter.get('/topics', async (req, res, next) => {
+    [ topics, error ] = await resolver(questions.getAllTopics());
+    if (error) {
+        next(error);
+        return;
+    }
+    res.json(topics);
+    return;
+})
+
+questionsRouter.get('/topics/:topic', async (req, res, next) => {
+    var pageNumber = req.query.page ? req.query.page : 0;
+    [ page, error ] = await resolver(questions.getQuestionsInTopicByPage(req.params.topic, pageNumber));
+    if (error) {
+        next(error);
+        return;
+    }
+    if (!page[0]) {
+        res.status(404).json({error: 'last page reached'});
+        return;
+    }
+    res.json(page);
+    return;
+})
+
+
+
 questionsRouter.post('/new', authorizeRequest, validateQuestionBody, async (req, res, next) => {
-    const { questionBody, title, topic } = req.body;
+    let { questionBody, title, topic } = req.body;
+    topic = topic.split(" ").join("_")
     const author = req.credentials.username;
     [ id, error ] = await resolver(questions.submitAQuestion(author, title, questionBody, topic));
     if (error) {

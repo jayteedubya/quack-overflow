@@ -123,24 +123,24 @@ class Queryer {
      * @param {string} orderBy
      * @returns a slice of the table starting at {beginId} with a length of {chunkSize}
      */
-    chunkedQuery(column, beginId, chunkSize, orderBy) {
+    chunkedQuery(column, beginPoint, chunkSize, orderBy) {
         const query = '\
         SELECT $1:name\
         FROM $2:name\
         ORDER BY $5:value\
         LIMIT $3:value\
         OFFSET $4:value;'
-        return db.any(query, [column, this.table, beginId, (beginId + chunkSize), orderBy]);
+        return db.any(query, [column, this.table, chunkSize, beginPoint, orderBy]);
     }
-    chunkedQueryWhere(column, beginId, chunkSize, orderBy, columnWhere, value) {
+    chunkedQueryWhere(column, beginPoint, chunkSize, orderBy, columnWhere, value) {
         const query = '\
         SELECT $1:name\
         FROM $2:name\
-        WHERE $6:name = $7:value\
+        WHERE $6:name = $7\
         ORDER BY $5:value\
         LIMIT $3:value\
         OFFSET $4:value;'
-        return db.any(query, [column, this.table, beginId, (beginId + chunkSize), orderBy, columnWhere, value]);
+        return db.any(query, [column, this.table, chunkSize, beginPoint, orderBy, columnWhere, value]);
     }
     /**
      * increments the value in a row for the specified column by the specified amount
@@ -187,6 +187,7 @@ class Queryer {
         WHERE $4:name = $5;';
         return db.one(query, [func, column, this.table, identifier, id_value]);
     }
+    // SELECT COUNT(*), topic FROM questions GROUP BY 2 ORDER BY 1 DESC LIMIT 5; 
 }
 
 module.exports = Queryer;
