@@ -127,7 +127,7 @@ class Queryer {
         const query = '\
         SELECT $1:name\
         FROM $2:name\
-        ORDER BY $5:value\
+        ORDER BY $5:value DESC\
         LIMIT $3:value\
         OFFSET $4:value;'
         return db.any(query, [column, this.table, chunkSize, beginPoint, orderBy]);

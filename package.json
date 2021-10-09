@@ -1,6 +1,6 @@
 {
   "name": "quack-overflow",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Stack overflow, but for ducks",
   "main": "bin/www",
   "engines": {
