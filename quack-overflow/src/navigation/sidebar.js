@@ -8,7 +8,7 @@ class Sidebar extends React.Component {
         this.state = {topics: []};
     }
     componentDidMount() {
-        fetch('http://localhost:4001/api/questions/topics')
+        fetch('/api/questions/topics')
             .then(res => res.json())
             .then(topics => this.setState({ topics }))
             .catch(err => console.error(err));

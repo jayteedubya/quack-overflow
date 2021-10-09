@@ -18,7 +18,7 @@ class QuestionArea extends React.Component {
         if (!this.state.readOnly) {
             const questionBody = document.getElementById('question-body').value;
             const body = JSON.stringify({ questionBody });
-            fetch(`http://localhost:4001/api/questions/question/${this.props.id}`, {method: 'PUT', body, credentials: 'include', headers: {'Content-Type': 'application/json'}})
+            fetch(`/api/questions/question/${this.props.id}`, {method: 'PUT', body, credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
                 .catch(err => console.error(err));
             this.toggleEdit(); 
@@ -30,7 +30,7 @@ class QuestionArea extends React.Component {
     deleteQuestion = () => {
         const confirmation = window.confirm('are you sure you want to delete this question?')
         if (confirmation) {
-            fetch(`http://localhost:4001/api/questions/question/${this.props.id}`, {method: 'DELETE', mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+            fetch(`/api/questions/question/${this.props.id}`, {method: 'DELETE', mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
                 .then(() => this.props.updateAnswers())
                 .catch(err => console.error(err));

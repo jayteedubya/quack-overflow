@@ -47,7 +47,7 @@ class SignUp extends React.Component {
         if (!body) {
             return null;
         }
-        fetch('http://localhost:4001/api/auth/sign-up', {method: 'POST', credentials: 'include', headers: {'content-type': 'application/json'}, body: JSON.stringify(body)})
+        fetch('/api/auth/sign-up', {method: 'POST', credentials: 'include', headers: {'content-type': 'application/json'}, body: JSON.stringify(body)})
             .then(res => res.json())
             .then(res => {
                 if (res.message && res.message === 'profile created!') {

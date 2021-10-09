@@ -15,7 +15,7 @@ class UserAnswers extends React.Component {
         }
     }
     updateAnswers = () => {
-        fetch(`http://localhost:4001/api/users/${this.props.username}/answers`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/users/${this.props.username}/answers`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => {
                 this.setState({ok: response.ok});
                 return response;
@@ -27,7 +27,7 @@ class UserAnswers extends React.Component {
             .catch(err => console.error(err));
         }
     componentDidMount() {
-        fetch(`http://localhost:4001/api/users/${this.props.username}/answers`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/users/${this.props.username}/answers`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => {
                 this.setState({ok: response.ok});
                 return response;

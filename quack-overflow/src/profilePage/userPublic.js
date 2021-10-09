@@ -17,7 +17,7 @@ class UserPublic extends React.Component {
         }
     }
     componentDidMount() {
-        fetch(`http://localhost:4001/api/users/${this.props.match.params.username}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/users/${this.props.match.params.username}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
                 const { bio, title } = result
@@ -36,7 +36,7 @@ class UserPublic extends React.Component {
         if (!this.state.titleReadOnly) {
             const title = document.getElementById('title').value;
             const body = JSON.stringify({ title });
-            fetch(`http://localhost:4001/api/users/${this.props.match.params.username}/title`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+            fetch(`/api/users/${this.props.match.params.username}/title`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
                 .catch(err => console.error(err));
             this.toggleEditTitle(); 
@@ -56,7 +56,7 @@ class UserPublic extends React.Component {
         if (!this.state.bioReadOnly) {
             const bio = document.getElementById('bio').value;
             const body = JSON.stringify({ bio });
-            fetch(`http://localhost:4001/api/users/${this.props.match.params.username}/bio`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+            fetch(`/api/users/${this.props.match.params.username}/bio`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
                 .catch(err => console.error(err));
             this.toggleEditBio(); 

@@ -14,7 +14,7 @@ class PostContainer extends React.Component {
         }
     }
     componentDidMount() {
-        fetch(`http://localhost:4001/api/questions?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/questions?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => {
                 this.setState({ok: response.ok})
                 return response;
@@ -27,7 +27,7 @@ class PostContainer extends React.Component {
     }
     nextPage = () => {
         this.setState({currentPage: this.state.currentPage + 1});
-        fetch(`http://localhost:4001/api/questions?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/questions?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
                 this.setState({isLoaded: true, questions: result});
@@ -38,7 +38,7 @@ class PostContainer extends React.Component {
     prevPage = () => {
         if (this.state.pageNumber - 1 >= 0) {
             this.setState({currentPage: this.state.currentPage - 1});
-            fetch(`http://localhost:4001/api/questions?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+            fetch(`/api/questions?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
                 .then(response => response.json())
                 .then(result => {
                     if (result.error) {

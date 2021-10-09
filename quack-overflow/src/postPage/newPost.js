@@ -35,7 +35,7 @@ class NewPost extends React.Component {
             return
         }
         const body = JSON.stringify(questionBody);
-        fetch('http://localhost:4001/api/questions/new', {method: 'POST', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+        fetch('api/questions/new', {method: 'POST', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
             .then(res => res.json())
             .then(res => {
                 this.redirect(res.id.id);

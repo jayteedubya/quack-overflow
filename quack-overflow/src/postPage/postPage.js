@@ -15,7 +15,7 @@ class PostPage extends React.Component {
         }
     }
     updateAnswers = () => {
-        fetch(`http://localhost:4001/api/questions/question/${this.props.id}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/questions/question/${this.props.id}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
                 this.setState({isLoaded: true, question: result.question, answers: result.answers});
@@ -23,7 +23,7 @@ class PostPage extends React.Component {
             .catch(err => console.error(err));
     }
     componentDidMount() {
-        fetch(`http://localhost:4001/api/questions/question/${this.props.id}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/questions/question/${this.props.id}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
                 this.setState({isLoaded: true, question: result.question, answers: result.answers});

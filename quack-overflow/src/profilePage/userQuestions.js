@@ -15,7 +15,7 @@ class UserQuestions extends React.Component {
         }
     }
     componentDidMount() {
-        fetch(`http://localhost:4001/api/users/${this.props.username}/questions`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/users/${this.props.username}/questions`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => {
                 this.setState({ok: response.ok});
                 return response;

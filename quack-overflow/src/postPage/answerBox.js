@@ -18,7 +18,7 @@ class AnswerBox extends React.Component {
         if (!this.state.readOnly) {
             const answerBody = document.getElementById('answer-body').value;
             const body = JSON.stringify({ answerBody });
-            fetch(`http://localhost:4001/api/answers/answer/${this.props.id}`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+            fetch(`/api/answers/answer/${this.props.id}`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
                 .catch(err => console.error(err));
             this.toggleEdit(); 
@@ -31,7 +31,7 @@ class AnswerBox extends React.Component {
     deleteAnswer = () => {
         const confirmation = window.confirm('are you sure you want to delete this answer?')
         if (confirmation) {
-            fetch(`http://localhost:4001/api/answers/answer/${this.props.id}`, {method: 'DELETE', mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+            fetch(`/api/answers/answer/${this.props.id}`, {method: 'DELETE', mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
                 .then(() => this.props.updateAnswers())
                 .catch(err => console.error(err));
@@ -39,7 +39,7 @@ class AnswerBox extends React.Component {
         }
     }
     patOnTheBack = () => {
-        fetch(`http://localhost:4001/api/answers/answer/${this.props.id}/POB`,{method: 'PUT', credentials: 'include'})
+        fetch(`/api/answers/answer/${this.props.id}/POB`,{method: 'PUT', credentials: 'include'})
             .then(res => res.json())
             .then(res => {
                 if (res.message === 'post successfully POB\'d' || res.error === 'user has already patted post in the back!') {

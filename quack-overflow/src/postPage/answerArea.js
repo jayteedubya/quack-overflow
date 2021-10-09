@@ -18,7 +18,7 @@ class AnswerArea extends React.Component {
         }
         document.getElementById('new-comment').value = '';
         const body = JSON.stringify({ answerBody });
-        fetch(`http://localhost:4001/api/answers/${this.props.questionId}`, {method: 'POST', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+        fetch(`/api/answers/${this.props.questionId}`, {method: 'POST', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
             .then(() => this.props.updateAnswers())
             .catch(err => console.error(err));
     }

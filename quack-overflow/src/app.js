@@ -33,7 +33,7 @@ export default class App extends React.Component {
     this.setState(state);
   }
   componentDidMount() {
-    fetch('http://localhost:4001/api/auth/who-am-i', {method: 'GET', credentials: 'include', mode: 'cors'})
+    fetch('/api/auth/who-am-i', {method: 'GET', credentials: 'include', mode: 'cors'})
         .then(res => res.json())
         .then(res => {
           this.setState({username: res.username})

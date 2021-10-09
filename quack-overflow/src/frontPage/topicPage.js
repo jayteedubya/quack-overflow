@@ -13,7 +13,7 @@ class TopicPage extends React.Component {
         }
     }
     componentDidMount() {
-        fetch(`http://localhost:4001/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => {
                 return response;
             })
@@ -25,7 +25,7 @@ class TopicPage extends React.Component {
     }
     nextPage = () => {
         this.setState({currentPage: this.state.currentPage + 1});
-        fetch(`http://localhost:4001/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
                 this.setState({isLoaded: true, questions: result});
@@ -36,7 +36,7 @@ class TopicPage extends React.Component {
     prevPage = () => {
         if (this.state.pageNumber - 1 >= 0) {
             this.setState({currentPage: this.state.currentPage - 1});
-            fetch(`http://localhost:4001/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+            fetch(`/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
                 .then(response => response.json())
                 .then(result => {
                     this.setState({isLoaded: true, questions: result});

@@ -19,7 +19,7 @@ class SignIn extends React.Component {
                 password
             })
         }
-        fetch('http://localhost:4001/api/auth/sign-in', req)
+        fetch('/api/auth/sign-in', req)
             .then(res => res.json())
             .then(res => {
                 if (res.message === 'log in success') {

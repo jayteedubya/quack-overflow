@@ -12,7 +12,7 @@ class SignOut extends React.Component {
         this.props.updateAppState({username: null});
     }
     signOut = () => {
-        fetch('http://localhost:4001/api/auth/sign-out', {method: 'POST', credentials: 'include'})
+        fetch('/api/auth/sign-out', {method: 'POST', credentials: 'include'})
        .catch(err => console.log(err));
     }
     render() {
