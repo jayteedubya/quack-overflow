@@ -1,27 +1,3 @@
 node_modules
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/quack-overflow/node_modules
-/quack-overflow/.pnp
-/quack-overflow.pnp.js
-
-# testing
-/quack-overflow/coverage
-
-# production
-
-# misc
-/quack-overflow.DS_Store
-/quack-overflow.env.local
-/quack-overflow.env.development.local
-/quack-overflow.env.test.local
-/quack-overflow.env.production.local
-
-/quack-overflownpm-debug.log*
-/quack-overflowyarn-debug.log*
-/quack-overflowyarn-error.log*
-
-.env
-.env
 .env
