@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Stack overflow, but for ducks",
   "main": "bin/www",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start": "node bin/www",
     "test": "./node_modules/.bin/jest",
