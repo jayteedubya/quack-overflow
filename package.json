@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node bin/www",
     "test": "./node_modules/.bin/jest",
-    "debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
+    "debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "heroku-postbuild": "cd quack-overflow && npm install && npm run build"
   },
   "author": "Jacob Williams",
   "license": "Unlicense",
