@@ -38,7 +38,7 @@ export default class App extends React.Component {
         .then(res => {
           this.setState({username: res.username})
         })
-        .catch(err => console.log(err))
+        .catch(err => console.error(err));
   }
   render() {
     return (
@@ -71,7 +71,7 @@ export default class App extends React.Component {
           <NewPost username={this.state.username}/>
         </Route>
         <Route path="/questions">
-          <QuestionRouter userLoggedIn={this.state.userLoggedIn} username={this.state.username} updateAppState={this.updateAppState}/>
+          <QuestionRouter username={this.state.username} updateAppState={this.updateAppState}/>
         </Route>
         <Route path="/users">
           <UserRouter userViewing={this.state.username}/>

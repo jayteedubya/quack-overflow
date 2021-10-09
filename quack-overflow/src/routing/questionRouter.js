@@ -30,7 +30,7 @@ import PostPage from '../postPage/postPage';
 const QuestionRouter = ({ userLoggedIn, username, updateAppState }) => {
   let match = useRouteMatch();
   const element = <Switch>
-      <Route path={`${match.path}/:id`} render={props => <PostPage userLoggedIn={userLoggedIn} username={username} updateAppState={updateAppState} key={window.location.pathname} id={props.match.params.id}/>}/>
+      <Route path={`${match.path}/:id`} render={props => <PostPage username={username} updateAppState={updateAppState} key={window.location.pathname} id={props.match.params.id}/>}/>
   </Switch>
   return element
 }

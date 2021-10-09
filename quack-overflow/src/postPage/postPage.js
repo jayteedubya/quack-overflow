@@ -19,22 +19,16 @@ class PostPage extends React.Component {
             .then(response => response.json())
             .then(result => {
                 this.setState({isLoaded: true, question: result.question, answers: result.answers});
-            }, 
-            error => {
-                console.log(error);
-                this.setState({isLoaded: true, error});
             })
+            .catch(err => console.error(err));
     }
     componentDidMount() {
         fetch(`http://localhost:4001/api/questions/question/${this.props.id}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
                 this.setState({isLoaded: true, question: result.question, answers: result.answers});
-            }, 
-            error => {
-                console.log(error);
-                this.setState({isLoaded: true, error});
             })
+            .catch(err => console.error(err));
     }
     render() {
         let element = <div><Redirect to="/404"/></div>

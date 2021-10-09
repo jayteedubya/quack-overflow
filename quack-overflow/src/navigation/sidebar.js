@@ -11,7 +11,7 @@ class Sidebar extends React.Component {
         fetch('http://localhost:4001/api/questions/topics')
             .then(res => res.json())
             .then(topics => this.setState({ topics }))
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
     render() {
         return <div className={styles.sidebar}>

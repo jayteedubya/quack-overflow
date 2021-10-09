@@ -23,11 +23,8 @@ class UserAnswers extends React.Component {
             .then(response => response.json())
             .then(result => {
                 this.setState({isLoaded: true, answers: result.answers});
-            }, 
-            error => {
-                console.log(error);
-                this.setState({isLoaded: true, error});
             })
+            .catch(err => console.error(err));
         }
     componentDidMount() {
         fetch(`http://localhost:4001/api/users/${this.props.username}/answers`, {method: 'GET', headers: {'content-type': 'application/json'}})

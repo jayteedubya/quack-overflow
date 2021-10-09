@@ -20,8 +20,7 @@ class AnswerBox extends React.Component {
             const body = JSON.stringify({ answerBody });
             fetch(`http://localhost:4001/api/answers/answer/${this.props.id}`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
-                .then(res => console.log(res))
-                .catch(err => console.log(err));
+                .catch(err => console.error(err));
             this.toggleEdit(); 
             return;
         }
@@ -34,9 +33,8 @@ class AnswerBox extends React.Component {
         if (confirmation) {
             fetch(`http://localhost:4001/api/answers/answer/${this.props.id}`, {method: 'DELETE', mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
-                .then(res => console.log(res))
                 .then(() => this.props.updateAnswers())
-                .catch(err => console.log(err));
+                .catch(err => console.error(err));
                 
         }
     }
@@ -44,14 +42,12 @@ class AnswerBox extends React.Component {
         fetch(`http://localhost:4001/api/answers/answer/${this.props.id}/POB`,{method: 'PUT', credentials: 'include'})
             .then(res => res.json())
             .then(res => {
-                console.log(res);
                 if (res.message === 'post successfully POB\'d' || res.error === 'user has already patted post in the back!') {
                     this.setState({buttonDisabled: true});
                 }
             })
     }
     render() {
-        console.log('answer box user viewing', this.props.userViewing)
         const element = 
         <div className={style.answerbox}>
             {this.props.profilePage && <Link to={`/questions/${this.props.question_id}`}>original question</Link>}

@@ -81,7 +81,7 @@ class Questions extends Queryer {
         return this.getColumnFromAttribute('author', 'id', id)
     }
     getAllTopics() {
-        return db.many("SELECT COUNT(*), topic FROM questions GROUP BY 2 ORDER BY 1 DESC;");
+        return db.any("SELECT COUNT(*), topic FROM questions GROUP BY 2 ORDER BY 1 DESC;");
     }
 }
 

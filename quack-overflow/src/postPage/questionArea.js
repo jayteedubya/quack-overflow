@@ -15,16 +15,12 @@ class QuestionArea extends React.Component {
         })
     }
     editQuestion = () => {
-        console.log('editing');
         if (!this.state.readOnly) {
             const questionBody = document.getElementById('question-body').value;
             const body = JSON.stringify({ questionBody });
-            console.log('sending edit');
-            console.log(this.props.id)
             fetch(`http://localhost:4001/api/questions/question/${this.props.id}`, {method: 'PUT', body, credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
-                .then(res => console.log(res))
-                .catch(err => console.log(err));
+                .catch(err => console.error(err));
             this.toggleEdit(); 
             return;
         }
@@ -36,9 +32,8 @@ class QuestionArea extends React.Component {
         if (confirmation) {
             fetch(`http://localhost:4001/api/questions/question/${this.props.id}`, {method: 'DELETE', mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
-                .then(res => console.log(res))
                 .then(() => this.props.updateAnswers())
-                .catch(err => console.log(err));
+                .catch(err => console.error(err));
             window.location.href = '/';
         }
     }

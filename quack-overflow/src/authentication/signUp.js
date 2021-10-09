@@ -45,7 +45,6 @@ class SignUp extends React.Component {
     signUp = () => {
         const body = this.getAndValidateFields();
         if (!body) {
-            console.log('no body')
             return null;
         }
         fetch('http://localhost:4001/api/auth/sign-up', {method: 'POST', credentials: 'include', headers: {'content-type': 'application/json'}, body: JSON.stringify(body)})

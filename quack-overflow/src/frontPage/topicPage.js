@@ -20,24 +20,17 @@ class TopicPage extends React.Component {
             .then(response => response.json())
             .then(result => {
                 this.setState({isLoaded: true, questions: result});
-            }, 
-            error => {
-                console.log(error);
-                this.setState({isLoaded: true, error});
             })
+            .catch(err => console.error(err));
     }
     nextPage = () => {
         this.setState({currentPage: this.state.currentPage + 1});
         fetch(`http://localhost:4001/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
-                console.log(result)
                 this.setState({isLoaded: true, questions: result});
-            }, 
-            error => {
-                console.log(error);
-                this.setState({isLoaded: true, error});
             })
+            .catch(err => console.error(err));
         
     }
     prevPage = () => {
@@ -46,13 +39,9 @@ class TopicPage extends React.Component {
             fetch(`http://localhost:4001/api/questions/topics/${this.props.topic}?page=${this.state.currentPage}`, {method: 'GET', headers: {'content-type': 'application/json'}})
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     this.setState({isLoaded: true, questions: result});
-                }, 
-                error => {
-                    console.log(error);
-                    this.setState({isLoaded: true, error});
                 })
+                .catch(err => console.error(err));
                 return;
         }
         return;

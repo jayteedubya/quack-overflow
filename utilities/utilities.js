@@ -26,7 +26,6 @@ const tryWrapper = (callBack, params) => {
         return [data, null]
     }
     catch (error) {
-        console.error(error);
         return [null, error]
     }
 }

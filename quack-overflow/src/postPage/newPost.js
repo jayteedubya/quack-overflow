@@ -9,7 +9,6 @@ class NewPost extends React.Component {
         this.state = {postId: null, characterCountBody: 0, characterCountTitle: 0, characterCountTopic: 0};
     }
     redirect = (postId) => {
-        console.log('postId: ', postId)
         this.setState({postId})
     }
     getAndValidateQuestion() {
@@ -39,10 +38,9 @@ class NewPost extends React.Component {
         fetch('http://localhost:4001/api/questions/new', {method: 'POST', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
             .then(res => res.json())
             .then(res => {
-                console.log(res.id.id);
                 this.redirect(res.id.id);
             })
-            .catch(err => console.log(err)) //credentials: 'same-origin' maybe //HTTP BEFORE localhost //api route
+            .catch(err => console.error(err)) //credentials: 'same-origin' maybe //HTTP BEFORE localhost //api route
     }
     render() {
         const element = <div className={style.newpost}>

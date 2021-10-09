@@ -20,14 +20,10 @@ class UserPublic extends React.Component {
         fetch(`http://localhost:4001/api/users/${this.props.match.params.username}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
-                console.log(result);
                 const { bio, title } = result
                 this.setState({isLoaded: true, bio, title});
-            }, 
-            error => {
-                console.log(error);
-                this.setState({isLoaded: true, error});
             })
+            .catch(err => console.error(err));
     }
     toggleEditTitle = () => {
         this.setState(state => {
@@ -40,11 +36,9 @@ class UserPublic extends React.Component {
         if (!this.state.titleReadOnly) {
             const title = document.getElementById('title').value;
             const body = JSON.stringify({ title });
-            console.log(body);
             fetch(`http://localhost:4001/api/users/${this.props.match.params.username}/title`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
-                .then(res => console.log(res))
-                .catch(err => console.log(err));
+                .catch(err => console.error(err));
             this.toggleEditTitle(); 
             return;
         }
@@ -64,8 +58,7 @@ class UserPublic extends React.Component {
             const body = JSON.stringify({ bio });
             fetch(`http://localhost:4001/api/users/${this.props.match.params.username}/bio`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
-                .then(res => console.log(res))
-                .catch(err => console.log(err));
+                .catch(err => console.error(err));
             this.toggleEditBio(); 
             return;
         }
