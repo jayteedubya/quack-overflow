@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import ProfileNavbar from './profileNavbar';
 import style from './userPublic.module.css';
 
@@ -72,8 +73,7 @@ class UserPublic extends React.Component {
         return;
     }
     render() {
-        console.log('user props  ' ,this.props)
-        const element = <div>
+        var element = <div>
             <ProfileNavbar username={this.props.match.params.username}/>
             <div className={style.userpublic}>
                 <div className={style.title}>
@@ -88,6 +88,9 @@ class UserPublic extends React.Component {
                 </div>
             </div>
         </div>
+        if (!this.state.bio && this.state.isLoaded) {
+            element = <div><Redirect to="/404"/></div>
+        }
         return element;
     }
 }

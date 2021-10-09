@@ -61,19 +61,29 @@ const authorizeRequest = async (req, res, next) => {
         res.status(401).json({error: 'please sign in to do this'});
         return;
     }
-    const decodedUsername = extractUsernameFromToken(submittedToken);
-    if (!decodedUsername) {
+    const username = extractUsernameFromToken(submittedToken);
+    if (!username) {
         res.status(500).json({error: 'credentials could not be verified'});
         return;
     }
-    storedToken = await getStoredToken(decodedUsername);
+    storedToken = await getStoredToken(username);
     if (!storedToken || storedToken !== submittedToken) {
         res.status(401).json({error: 'submitted token could not be verified with database'});
         return;
     }
+    [ token, error ] = tryWrapper(jwt.sign, [{ username }, process.env.TOKEN_SECRET, {expiresIn: '1h'}]);
+    if (error) {
+        res.next(error);
+        return;
+    }
+    [ result, tokenError ] = await resolver(users.updateUserToken(username, token));
+    if (tokenError) {
+        next(tokenError);
+        return;
+    }
+    req.session.token = token;
     req.credentials = {};
-    req.credentials.username = decodedUsername;
-    req.credentials.token = submittedToken;
+    req.credentials.username = username;
     next()
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import style from './questionarea.module.css';
 
 class QuestionArea extends React.Component {

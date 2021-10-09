@@ -5,12 +5,10 @@ const questions = require('./database/questions.js');
 const randWords = require('random-words');
 const answers = require('./database/answers.js');
 const { range } = require('./utilities/utilities.js');
-const { JsonWebTokenError } = require('jsonwebtoken');
 
-jest.setTimeout(10000);
-beforeAll(async () => await users.destroy());
-beforeAll(async () => await questions.destroy());
-beforeAll(async () => await answers.destroy());
+beforeAll(async () => await users.destroy().catch(err => console.log(err)));
+beforeAll(async () => await questions.destroy().catch(err => console.log(err)));
+beforeAll(async () => await answers.destroy().catch(err => console.log(err)));
 
 test('make sure tests are working', () => {
     expect(true).toBe(true);

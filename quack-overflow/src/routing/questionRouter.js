@@ -1,5 +1,5 @@
 
-import PostPage from'../postPage/postPage';
+/*import PostPage from'../postPage/postPage';
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter, Route } from "react-router";
@@ -16,4 +16,23 @@ class QuestionRouter extends React.Component {
   }
 }
 
-export default withRouter(QuestionRouter);
+export default withRouter(QuestionRouter);*/
+
+import React from 'react';
+import {
+    Switch,
+    Route,
+    useRouteMatch
+  } from "react-router-dom";
+import PostPage from '../postPage/postPage';
+  
+
+const QuestionRouter = ({ userLoggedIn, username, updateAppState }) => {
+  let match = useRouteMatch();
+  const element = <Switch>
+      <Route path={`${match.path}/:id`} render={props => <PostPage userLoggedIn={userLoggedIn} username={username} updateAppState={updateAppState} key={window.location.pathname} id={props.match.params.id}/>}/>
+  </Switch>
+  return element
+}
+
+  export default QuestionRouter;

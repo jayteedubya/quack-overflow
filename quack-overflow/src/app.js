@@ -22,6 +22,7 @@ import UserRouter from './routing/userRouter';
 import TopicPage from './frontPage/topicPage';
 import TopicRouter from './routing/topicsRouter';
 import SignOut from './authentication/signOut';
+import FourZeroFour from './navigation/404';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -80,6 +81,9 @@ export default class App extends React.Component {
         </Route>
         <Route path="/sign-out">
           <SignOut updateAppState={this.updateAppState}/>
+        </Route>
+        <Route path="/404">
+          <FourZeroFour/>
         </Route>
       </Switch>
     </div>

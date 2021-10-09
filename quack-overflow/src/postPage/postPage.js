@@ -2,6 +2,7 @@ import React from 'react';
 import AnswerArea from './answerArea';
 import QuestionArea from './questionArea';
 import style from './postPage.module.css';
+import { Redirect } from 'react-router';
 
 class PostPage extends React.Component {
     constructor(props) {
@@ -36,10 +37,14 @@ class PostPage extends React.Component {
             })
     }
     render() {
-        return <div className={style.postpage}>
+        let element = <div><Redirect to="/404"/></div>
+        if (this.state.question) {
+        element = <div className={style.postpage}>
             <QuestionArea id={this.props.id} username={this.props.username} question={this.state.question}></QuestionArea>
             <AnswerArea username={this.props.username} userLoggedin={this.props.userLoggedin} questionId={this.props.id} answers={this.state.answers} updateAnswers={this.updateAnswers}></AnswerArea>
         </div>
+        }
+        return element;
     }
 }
 

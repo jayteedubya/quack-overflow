@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node bin/www",
     "test": "./node_modules/.bin/jest",
-    "test-fix": "./node_modules/.bin/jest --detectOpenHandles",
     "debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
   },
   "author": "Jacob Williams",
