@@ -6,7 +6,15 @@ import style from './signIn.module.css';
 class SignUp extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {loggedIn: false, profileCreated: false}
+        this.state = {
+            loggedIn: false, 
+            profileCreated: false,
+            usernameCharCount: 0, 
+            passwordCharCount: 0, 
+            titleCharCount: 0,
+            bioCharCount: 0,
+            passwordMatch: false
+        }
     }
     getAndValidateFields() {
         const username = document.getElementById('username').value;
@@ -60,26 +68,33 @@ class SignUp extends React.Component {
                 }
             });
     }
+    updatePasswordMatch = () => {
+        const passwordMatch = document.getElementById('password').value === document.getElementById('confirm-password').value ? 'passwords match!' : 'passwords do not match'
+        this.setState({ passwordMatch })
+    }
+    updateCharCounters = () => {
+        this.setState(
+            {
+                usernameCharCount: document.getElementById('username').value.length, 
+                titleCharCount: document.getElementById('title').value.length, 
+                passwordCharCount: document.getElementById('password').value.length, 
+                bioCharCount: document.getElementById('bio').value.length,
+            })
+    }
     render() {
         const element = <div className={style.signinbox}>
             <div class={style.innerbox}>
                 <h1> Sign Up For Quack Overflow! </h1>
                 <label for="username"> username </label>
-                <input type="text" id="username" name="username"/>
-                <br/>
+                <span><input onInput={this.updateCharCounters} type="text" id="username" name="username"/><p>{this.state.usernameCharCount} / 40 characters</p></span>
                 <label for="title"> title </label>
-                <input type="text" name="title" id="title"></input>
-                <br/>
+                <span><input onInput={this.updateCharCounters} type="text" name="title" id="title"></input><p>{this.state.titleCharCount} / 80 characters</p></span>
                 <label for="password"> password </label>
-                <input type="password" id="password" name="password"/>
-                <br/>
+                <span><input onInput={this.updateCharCounters} type="password" id="password" name="password"/><p>{this.state.passwordCharCount} / 40 characters</p></span>
                 <label for="confirm-password"> confirm password </label>
-                <input type="password" id="confirm-password" name="confirm-password"></input>
-                <br/>
+                <span><input onInput={this.updatePasswordMatch} type="password" id="confirm-password" name="confirm-password"></input><p>{this.state.passwordMatch}</p></span>
                 <label for="bio"> bio </label>
-                <br/>
-                <textarea id="bio" name="bio"></textarea>
-                <br/>
+                <span><textarea onInput={this.updateCharCounters} id="bio" name="bio"></textarea><p>{this.state.bioCharCount} / 300 characters</p></span>
                 <button onClick={this.signUp}> Sign Up! </button>
             </div>
         </div>
