@@ -42,6 +42,12 @@ class UserAnswers extends React.Component {
                 {this.state.answers.map(answer => <AnswerBox profilePage updateAnswers={this.props.updateAnswers} userViewing={this.props.userViewing} question_id={answer.question_id} id={answer.id} key={answer.id} author={answer.author} pob_count={answer.pob_count} body={answer.body} timestamp={answer.time}></AnswerBox>)}
                 </div>
             </div>
+        if (!this.state.isLoaded) {
+            element = <div>
+                <ProfileNavbar username={this.props.username}/>
+                <div style={{margin: '10px 10px 10px 170px', border: '1px solid black', backgroundColor: 'rgb(150, 150, 150)'}}><h3> Loading... </h3></div>
+            </div>
+        }
         if (!this.state.ok) {
             element = <div><Redirect to="/404"/></div>
         }

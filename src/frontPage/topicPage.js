@@ -47,20 +47,36 @@ class TopicPage extends React.Component {
         return;
     }
     render() {
-        let Items = <div style={{textAlign: 'center', border: '1px solid black', marginLeft: '170px', padding: '5%', marginRight: '10px', backgroundColor: 'rgb(150, 150, 150)'}}>
-            <h1> No posts in this topic have been made yet!</h1>
-            <h3> You should really do something about that </h3>
-            <h6> please... </h6>
-            <Link to="/submit"> Make a Post</Link>
-        </div>
-        if (this.state.questions.length > 0) {
-            Items = this.state.questions.map(post => //use css to give this a class with margin 170px
+        let Items;
+        if (this.state.isLoaded && !this.state.error) {
+            try {
+                Items = this.state.questions.map(post => //use css to give this a class with margin 170px
                 <Postbox key = {post.id} url={`/questions/${post.id}`} author={post.author} timestamp={new Date(post.time).toLocaleString()} views={post.views} title={post.title}/>
             );
+            }
+            catch (err) {
+                return <div style={{textAlign: 'center', border: '1px solid black', marginLeft: '170px', padding: '5%', marginRight: '10px', backgroundColor: 'rgb(150, 150, 150)'}}>
+                    <h1> No posts have been made yet!</h1>
+                    <h3> You should really do something about that </h3>
+                    <h6> please... </h6>
+                    <Link to="/submit"> Make a Post</Link>
+                </div>
+            }
+        }
+        if (!this.state.isLoaded) {
+            Items = <div style={{margin: '0 10px 0 170px', border: '1px solid black', backgroundColor: 'rgb(150, 150, 150)'}}><h3> Loading... </h3></div>
+        }
+        if (this.state.isLoaded && this.state.error) {
+            Items = <div style={{textAlign: 'center', border: '1px solid black', marginLeft: '170px', padding: '5%', marginRight: '10px', backgroundColor: 'rgb(150, 150, 150)'}}>
+                <h1> No posts have been made yet!</h1>
+                <h3> You should really do something about that </h3>
+                <h6> please... </h6>
+                <Link to="/submit"> Make a Post</Link>
+            </div>
         }
         return <div>
             {Items}
-            {Items.length > 24 && <button style={{'margin-left': '170px'}} onClick={this.nextPage}> next page </button>}
+            {this.state.questions.length > 24 && <button style={{'margin-left': '170px'}} onClick={this.nextPage}> next page </button>}
         </div>
     }
 }

@@ -30,7 +30,13 @@ class UserQuestions extends React.Component {
                 {this.state.questions.map(post => <Postbox url={`/questions/${post.id}`} author={post.username} timestamp={post.time} views={post.views} title={post.title}></Postbox>)}
             </div>
         </div>
-    if (!this.state.ok) {
+    if (!this.state.isLoaded) {
+        element = <div>
+                <ProfileNavbar username={this.props.username}/>
+                <div style={{margin: '10px 10px 10px 170px', border: '1px solid black', backgroundColor: 'rgb(150, 150, 150)'}}><h3> Loading... </h3></div>
+            </div>
+    }
+    if (!this.state.ok && this.state.isLoaded) {
         element = <div><Redirect to="/404"/></div>
     }
     return element;
