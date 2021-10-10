@@ -31,6 +31,9 @@ class PostPage extends React.Component {
             .catch(err => console.error(err));
     }
     render() {
+        if (!this.state.isLoaded) {
+            Items = <div style={{margin: '0 10px 0 170px', border: '1px solid black', backgroundColor: 'rgb(150, 150, 150)'}}><h3> Loading... </h3></div>
+        }
         let element = <div><Redirect to="/404"/></div>
         if (this.state.question) {
         element = <div className={style.postpage}>

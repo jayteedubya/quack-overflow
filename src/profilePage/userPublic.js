@@ -17,7 +17,7 @@ class UserPublic extends React.Component {
         }
     }
     componentDidMount() {
-        fetch(`/api/users/${this.props.match.params.username}`, {method: 'GET', headers: {'content-type': 'application/json'}})
+        fetch(`/api/users/${this.props.username}`, {method: 'GET', headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(result => {
                 const { bio, title } = result
@@ -36,7 +36,7 @@ class UserPublic extends React.Component {
         if (!this.state.titleReadOnly) {
             const title = document.getElementById('title').value;
             const body = JSON.stringify({ title });
-            fetch(`/api/users/${this.props.match.params.username}/title`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+            fetch(`/api/users/${this.props.username}/title`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
                 .catch(err => console.error(err));
             this.toggleEditTitle(); 
@@ -56,7 +56,7 @@ class UserPublic extends React.Component {
         if (!this.state.bioReadOnly) {
             const bio = document.getElementById('bio').value;
             const body = JSON.stringify({ bio });
-            fetch(`/api/users/${this.props.match.params.username}/bio`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
+            fetch(`/api/users/${this.props.username}/bio`, {method: 'PUT', body, mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
                 .catch(err => console.error(err));
             this.toggleEditBio(); 
@@ -67,20 +67,26 @@ class UserPublic extends React.Component {
     }
     render() {
         var element = <div>
-            <ProfileNavbar username={this.props.match.params.username}/>
+            <ProfileNavbar username={this.props.username}/>
             <div className={style.userpublic}>
                 <div className={style.title}>
                     <h3 style={{margin: 0}}> title </h3>
                     <textarea id="title" readOnly={this.state.titleReadOnly} defaultValue={this.state.title}></textarea>
-                    {this.props.userViewing === this.props.match.params.username && <button onClick={this.editTitle}>{this.state.titleButtonText}</button>}
+                    {this.props.userViewing === this.props.username && <button onClick={this.editTitle}>{this.state.titleButtonText}</button>}
                 </div>
                 <div className={style.bio}>
                     <h3 style={{margin: 0}}> bio </h3>
                     <textarea id="bio" readOnly={this.state.bioReadOnly} defaultValue={this.state.bio}></textarea>
-                    {this.props.userViewing === this.props.match.params.username && <button onClick={this.editBio}>{this.state.bioButtonText}</button>}
+                    {this.props.userViewing === this.props.username && <button onClick={this.editBio}>{this.state.bioButtonText}</button>}
                 </div>
             </div>
         </div>
+        if (!this.state.isLoaded) {
+            element = <div>
+                <ProfileNavbar username={this.props.username}/>
+                <div style={{margin: '10px 10px 10px 170px', border: '1px solid black', backgroundColor: 'rgb(150, 150, 150)'}}><h3> Loading... </h3></div>
+            </div>
+        }
         if (!this.state.bio && this.state.isLoaded) {
             element = <div><Redirect to="/404"/></div>
         }
