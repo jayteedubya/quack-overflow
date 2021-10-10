@@ -66,6 +66,9 @@ class PostContainer extends React.Component {
                 </div>
             }
         }
+        if (!this.state.isLoaded) {
+            Items = <div style={{margin: '0 10px 0 170px', border: '1px solid black', backgroundColor: 'rgb(150, 150, 150)'}}><h3> Loading... </h3></div>
+        }
         if (this.state.isLoaded && this.state.error) {
             Items = <div style={{textAlign: 'center', border: '1px solid black', marginLeft: '170px', padding: '5%', marginRight: '10px', backgroundColor: 'rgb(150, 150, 150)'}}>
                 <h1> No posts have been made yet!</h1>
