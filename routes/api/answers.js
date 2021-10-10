@@ -2,7 +2,7 @@ const answersRouter = require('express').Router();
 const answers = require('../../database/answers');
 const questions = require('../../database/questions');
 const { resolver } = require('../../utilities/utilities');
-const { authorizeRequest, validateAnswerBody, verifyAnswerPermissions } = require('../../utilities/middleware');
+const { authorizeRequest, validateAnswerBody, verifyAnswerPermissions, verifyPostPermissions } = require('../../utilities/middleware');
 const users = require('../../database/users');
 
 answersRouter.put('/answer/:id', authorizeRequest, verifyAnswerPermissions, async (req, res, next) => {
