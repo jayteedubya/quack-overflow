@@ -24,3 +24,7 @@
     height: 10vh;
     border: 1px solid black;
 }
+
+.signinbox .innerbox p {
+    margin: 0 0 10px 10px;
+}
