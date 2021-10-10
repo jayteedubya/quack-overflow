@@ -23,6 +23,7 @@ import TopicPage from './frontPage/topicPage';
 import TopicRouter from './routing/topicsRouter';
 import SignOut from './authentication/signOut';
 import FourZeroFour from './navigation/404';
+import TopPosts from './frontPage/topPosts';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -47,10 +48,10 @@ export default class App extends React.Component {
       <Sidebar/>
       <Switch>
         <Route exact path="/">
-          <PostContainer view="home"/>
+          <PostContainer/>
         </Route>
         <Route path="/top">
-          <PostContainer view="top"/>
+          <TopPosts/>
         </Route>
         <Route path="/most-answered">
           <PostContainer view="mostAnswered"/>

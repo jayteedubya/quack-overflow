@@ -19,6 +19,21 @@ questionsRouter.get('/', async (req, res, next) => {
     return;
 });
 
+questionsRouter.get('/top', async (req, res, next) => {
+    const pageNumber = req.query.page ? req.query.page : 0;
+    [ page, error ] = await resolver(questions.getNextPageByViews(Number(pageNumber)))
+    if (error) {
+        next(error);
+        return;
+    }
+    if (!page[0]) {
+        res.status(404).json({error: 'last page reached'});
+        return;
+    }
+    res.json(page);
+    return;
+});
+
 questionsRouter.get('/topics', async (req, res, next) => {
     [ topics, error ] = await resolver(questions.getAllTopics());
     if (error) {

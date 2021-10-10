@@ -13,6 +13,9 @@ class Questions extends Queryer {
     getNextPageByTime(page) {
         return this.chunkedQuery(['id', 'title', 'time', 'topic', 'views', 'author'], page * 25, 25, 'time');
     }
+    getNextPageByViews(page) {
+        return this.chunkedQuery(['id', 'title', 'time', 'topic', 'views', 'author'], page * 25, 25, 'views');
+    }
     /**
      * adds a new question ot the database
      * @param {string} author 
