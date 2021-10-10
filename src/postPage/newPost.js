@@ -42,31 +42,19 @@ class NewPost extends React.Component {
             })
             .catch(err => console.error(err)) //credentials: 'same-origin' maybe //HTTP BEFORE localhost //api route
     }
-    characterCounterTitle() {
-        this.setState({characterCountTitle: document.getElementById('title').value.length});
-    } //consider changing to one function that updates all three at once.
-    characterCounterTopic() {
-        this.setState({characterCountTopic: document.getElementById('topic').value.length});
-    }
-    characterCounterBody() {
-        this.setState({characterCountBody: document.getElementById('body').value.length});
-    }
     render() {
         const element = <div className={style.newpost}>
             <label for="title"> title </label>
             <br/>
-            <input onInput={() => this.characterCounterTitle()} type="text" name="title" id="title"></input>
-            <p>{this.state.characterCountTitle} / 80 characters</p>
+            <input type="text" name="title" id="title"></input>
             <br/>
             <label for="topic"> topic </label>
             <br/>
-            <input onInput={() => this.characterCounterTopic()} type="text" name="topic" id="topic"></input>
-            <p>{this.state.characterCountTopic} / 60 characters</p>
+            <input type="text" name="topic" id="topic"></input>
             <br/>
             <div className={style.textcontainer}>
-                <textarea onInput={() => this.characterCounterBody()} id="body"></textarea>
+                <textarea id="body"></textarea>
                 <br/>
-                <p>{this.state.characterCountBody} / 1000 characters</p>
                 <button onClick={this.submit}> submit </button>
             </div>
         </div>
