@@ -5,7 +5,7 @@ import style from './questionarea.module.css';
 class QuestionArea extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {readOnly: true, buttonText: 'edit'}
+        this.state = {readOnly: true, buttonText: 'edit', deleted: false}
     }
     toggleEdit = () => {
         this.setState(state => {
@@ -32,9 +32,9 @@ class QuestionArea extends React.Component {
         if (confirmation) {
             fetch(`/api/questions/question/${this.props.id}`, {method: 'DELETE', mode: 'cors', credentials: 'include', headers: {'Content-Type': 'application/json'}})
                 .then(res => res.json())
-                .then(() => this.props.updateAnswers())
+                .then(() => this.setState({deleted: true}))
                 .catch(err => console.error(err));
-            window.location.href = '/';
+            // for some reason setting the window.location.href property prevents the request from happening in firefox
         }
     }
     render() {
@@ -45,6 +45,9 @@ class QuestionArea extends React.Component {
             <p><strong>author: </strong>{this.props.question.author}<a href="/profile">{this.props.author}</a> <strong>timestamp: </strong> {new Date(this.props.question.time).toLocaleString()}</p>
             {this.props.username === this.props.question.author && <div><button onClick={this.editQuestion}>{this.state.buttonText}</button><button onClick={this.deleteQuestion}>delete</button></div>}
         </div>
+        if (this.state.deleted) {
+            return <Redirect to="/"/>
+        }
         return element;
     }
 }

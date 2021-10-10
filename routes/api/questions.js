@@ -1,8 +1,21 @@
 const questionsRouter = require('express').Router();
 const questions = require('../../database/questions.js');
 const answers = require('../../database/answers.js');
+const cors = require('cors');
 const { authorizeRequest, verifyPostPermissions, validateQuestionBody, validateQuestionEdit } = require('../../utilities/middleware');
 const { resolver } = require('../../utilities/utilities.js');
+
+questionsRouter.delete('/question/:id', authorizeRequest, verifyPostPermissions, async (req, res, next) => {
+    const id = req.params.id;
+    [ data, error ] = await resolver(questions.deleteQuestion(id));
+    if (error) {
+        next(error);
+        return;
+    }
+    res.json({message: 'question deleted'});
+    return;
+    
+});
 
 questionsRouter.get('/', async (req, res, next) => {
     const pageNumber = req.query.page ? req.query.page : 0;
@@ -115,14 +128,15 @@ questionsRouter.put('/question/:id', authorizeRequest, verifyPostPermissions, va
 });
 
 questionsRouter.delete('/question/:id', authorizeRequest, verifyPostPermissions, async (req, res, next) => {
-    [ data, error ] = await resolver(questions.deleteQuestion(req.params.id));
+    const id = req.params.id;
+    [ data, error ] = await resolver(questions.deleteQuestion(id));
     if (error) {
-        console.log(error);
         next(error);
         return;
     }
-    res.json({message: "post deleted!"});
+    res.json({message: 'question deleted'});
     return;
+    
 });
 
 
