@@ -1,4 +1,4 @@
-require('dotenv').config()
+//require('dotenv').config()
 
 const { join } = require('path');
 const express = require('express');
@@ -14,6 +14,5 @@ app.use(express.json());
 app.use(express.static(join(__dirname, 'build')));
 app.use('/', index);
 app.use('/api', api);
-app.get('*', (req, res, next) => res.redirect('/'));
 
 module.exports = app;
