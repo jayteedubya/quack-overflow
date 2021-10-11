@@ -34,7 +34,7 @@ class QuestionArea extends React.Component {
                 .then(res => res.json())
                 .then(() => this.setState({deleted: true}))
                 .catch(err => console.error(err));
-            // for some reason setting the window.location.href property prevents the request from happening in firefox
+            // for some reason setting the window.location.href property prevents the request from happening in firefox. Wrong, the redirect is happening before the fetch completes, because the property was not set in the then chain
         }
     }
     render() {
