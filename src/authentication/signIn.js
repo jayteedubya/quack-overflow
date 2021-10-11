@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 class SignIn extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {loggedIn: false}
+        this.state = {loggedIn: false, errorMessage: null}
     }
     signIn() {
         const username = document.getElementById('username').value
@@ -26,6 +26,9 @@ class SignIn extends React.Component {
                     this.setState({loggedIn: true});
                     this.props.updateAppState({username});  
                 }
+                if (res.error) {
+                    this.setState({errorMessage: res.error});
+                }
             });
         
     }
@@ -39,6 +42,7 @@ class SignIn extends React.Component {
                 <label htmlFor="password"> password </label>
                 <input type="password" id="password" name="password"/>
                 <br/>
+                {this.state.errorMessage && <p style={{color: 'red'}}>{this.state.errorMessage}</p>}
                 <button onClick={()=>this.signIn()}> Sign In </button>
             </div>
         </div>
