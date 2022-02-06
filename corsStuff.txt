@@ -1,1 +1,0 @@
-app.use(cors({origin: true, credentials: true}));  //this is all the cors you need. It handles preflights for all route and cors for all routes.

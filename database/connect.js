@@ -1,4 +1,3 @@
-//require('dotenv').config();
 const init = {
     noWarnings: false
 }
