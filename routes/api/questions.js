@@ -1,7 +1,6 @@
 const questionsRouter = require('express').Router();
 const questions = require('../../database/questions.js');
 const answers = require('../../database/answers.js');
-const cors = require('cors');
 const { authorizeRequest, verifyPostPermissions, validateQuestionBody, validateQuestionEdit } = require('../../utilities/middleware');
 const { resolver } = require('../../utilities/utilities.js');
 
