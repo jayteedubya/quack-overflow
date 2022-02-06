@@ -11,6 +11,5 @@ app.use(express.json());
 app.use(express.static(join(__dirname, 'build')));
 app.use('/', index);
 app.use('/api', api);
-app.get('*', (req, res, next) => res.redirect('/'));
 
 module.exports = app;
